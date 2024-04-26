@@ -1,0 +1,89 @@
+<div class="col mb-3">
+    <div class="text-center mb-5">
+        <h2>Nouveau Employer</h2>
+    </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+    <form #f="ngForm" (ngSubmit)="saveEmploye()">
+        <div class="row mb-1">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Nom</label>
+                <input type="text" [(ngModel)]="employe.nom" class="form-control" placeholder="First name" name="firstName">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Prenom</label>
+                <input type="text" [(ngModel)]="employe.prenom" class="form-control" placeholder="Last name" name="lastName">
+            </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Email address</label>
+            <input type="email" [(ngModel)]="employe.email" class="form-control" placeholder="email@email.com" name="email">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" [(ngModel)]="employe.password" class="form-control" placeholder="****" name="email">
+          </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Numéro de Tel</label>
+                <input type="text" [(ngModel)]="employe.tel" class="form-control" placeholder="Num tel" name="phoneNumber">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Date De Naissance</label>
+                <input type="text" [(ngModel)]="employe.dateNaissance" class="form-control" placeholder="dd/MM/yyyy" name="dob">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Matricule</label>
+                <input type="text" [(ngModel)]="employe.matricule" class="form-control" placeholder="******" name="matricule">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">CIN</label>
+                <input type="text" [(ngModel)]="employe.cin" class="form-control" placeholder="********" name="cin">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Situation</label>
+              <select class="form-select" [(ngModel)]="employe.situation" aria-label="Default select example" name="situation">
+                <option value="Celibataire">Celibataire</option>
+                <option value="Mariee">Mariee</option>
+              </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Nombre Enfant</label>
+                <input type="text" [(ngModel)]="employe.nbrEnfant" class="form-control" placeholder="N° enfant" name="numberOfChildren">
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Salaire Brut</label>
+                <input type="text" [(ngModel)]="employe.salaireNet" class="form-control" placeholder="salaire brut" name="grossSalary">
+            </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Societe</label>
+            <select class="form-select" name="soc" [(ngModel)]="employe.societeId" aria-label="Default select example">
+              <option [value]="null">Selectionner une société</option>
+              <option *ngFor="let soc of listeSociete" [ngValue]="soc.id">{{ soc.nom }}</option>
+            </select>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Grade </label>
+            <input type="text" [(ngModel)]="employe.grade" class="form-control" placeholder="salaire brut" name="grossSalary">
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label">Role</label>
+            <select class="form-select" [(ngModel)]="employe.role" aria-label="Default select example" name="situation">
+              <option value="USER">USER</option>
+              <option value="ADMIN">ADMIN</option>
+              <option value="RH">RH</option>
+            </select>
+          </div>
+
+        </div>
+        <div class="text-end">
+            <button class="btn btn-dark m-2" type="reset">
+                <i class="fas fa-ban"></i>&nbsp;
+                Annuler
+            </button>
+          <button class="btn btn-primary" type="submit">
+            <i class="fas fa-save"></i>&nbsp; Enregistrer
+          </button>
+        </div>
+    </form>
+</div>

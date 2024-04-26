@@ -1,0 +1,125 @@
+<div>
+  <div class="card" >
+    <div class="card-body">
+      <h5 class="card-title text-center">Modifier Profile</h5>
+      <div class="card-body">
+        <form >
+          <div class="row">
+            <div class="col">
+              <label  class="form-label">Societe</label>
+              <input type="text" class="form-control" id="exampleInputEmail1" [ngModel]="getSocieteNameById(employe.societeId)" [readonly]="true" name="societe">
+            </div>
+            <div class="col">
+              <label  class="form-label">Matricule</label>
+              <input type="text" class="form-control" [(ngModel)]="employe.matricule" [readonly]="true" name="matricule">
+            </div>
+            <div class="col">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input type="email" class="form-control" [(ngModel)]="employe.email" name="email">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label  class="form-label">First Name</label>
+              <input type="text" class="form-control" [(ngModel)]="employe.prenom" name="prenom">
+            </div>
+            <div class="col">
+              <label  class="form-label">Last Name</label>
+              <input type="text" class="form-control" [(ngModel)]="employe.nom" name="nom">
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col">
+              <label  class="form-label">Date De Naissance</label>
+              <input type="text" class="form-control" [(ngModel)]="employe.dateNaissance" name="dob">
+            </div>
+            <div class="col-5">
+              <label  class="form-label">C I N</label>
+              <input type="text" class="form-control" [(ngModel)]="employe.cin" name="cin">
+            </div>
+            <div class="col">
+              <label for="exampleInputEmail1" class="form-label">N° Tel</label>
+              <input type="email" class="form-control" [(ngModel)]="employe.tel"  name="tel">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label  class="form-label">Sutiation</label>
+              <input type="text" class="form-control" [(ngModel)]="employe.situation" name="situation">
+            </div>
+            <div class="col">
+              <label  class="form-label">Nbr Enfants</label>
+              <input type="text" class="form-control" [(ngModel)]="employe.nbrEnfant" name="nbrEnfant">
+            </div>
+            <div class="col">
+              <label for="exampleInputEmail1" class="form-label">Grade</label>
+              <input type="email" class="form-control" [(ngModel)]="employe.grade" [readonly]="true" name="grade">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label  class="form-label">Role</label>
+              <input type="text" class="form-control" [(ngModel)]="employe.role" [readonly]="true" name="role">
+            </div>
+            <div class="col">
+              <label  class="form-label">Salaire </label>
+              <input type="text" class="form-control" [(ngModel)]="employe.salaireNet" [readonly]="true" name="salaire">
+            </div>
+            <div class="col">
+              <label class="form-label">Calendriers</label>
+              <p class="form-control" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#myModal" >
+                <ng-container *ngFor="let calendrier of userCalendriers; let last = last">
+                  {{ calendrier.nom }}<span *ngIf="!last"> &nbsp;&nbsp;&nbsp; </span>
+                </ng-container>
+              </p>
+            </div>
+
+
+          </div>
+
+
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <div class="p-2 flex-fill button" >
+    <button type="button" class="btn btn-secondary mr-2" (click)="backButton()">
+      Annuler
+    </button>
+    <button type="button" class="btn btn-primary"(click)="updateEmployee()" >
+      Enregistrer
+    </button>
+  </div>
+
+
+  <div class="modal fade" id="myModal" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="staticBackdropLabel">Calendriers</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="col">
+            <label class="form-label">Calendriers</label>
+            <div *ngFor="let calendrier of calendriers">
+              <input type="checkbox" [checked]="isUserCalendrier(calendrier.id!)" aria-label="Checkbox for following text input">
+              {{ calendrier.nom }}
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"  >
+            <i class="fas fa-trash-alt"></i>&nbsp;Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div>
+  <div class="p-2 flex-fill align" *ngIf="isNouveauVisible">
+    <button type="button" class="btn btn-secondary" (click)="updateEmploye()">
+
+      Modifier
+    </button>
+  </div>
+  <div class="card" >
+    <div class="card-header text-center">
+      <h3>Profile</h3>
+    </div>
+      <div class="card-body row">
+
+        <div class="col">
+          <h5 class="heading">Contact Information</h5>
+          <ul >
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Nom : </h5>
+                <h6 class="info">{{employe.nom}}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Prenom : </h5>
+                <h6 class="info">{{employe.prenom}}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Email : </h5>
+                <h6 class="info">{{employe.email}}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Matricule : </h5>
+                <h6 class="info">{{employe.matricule}}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">C I N : </h5>
+                <h6 class="info">{{employe.cin}}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">N° Tel : </h5>
+                <h6 class="info">{{employe.tel}}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Role : </h5>
+                <h6 class="info">{{employe.role}}</h6>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <h5 class="heading">Basic Information</h5>
+          <ul>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Societe : </h5>
+                <h6 class="info">{{ getSocieteNameById(employe.societeId) }}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Grade : </h5>
+                <h6 class="info">{{employe.grade}}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Salaire: </h5>
+                <h6 class="info">{{employe.salaireNet}} D</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Birthday : </h5>
+                <h6 class="info">{{employe.dateNaissance}}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Gender : </h5>
+                <h6 class="info">Male</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Sutiation : </h5>
+                <h6 class="info">{{employe.situation}}</h6>
+              </div>
+            </li>
+            <li *ngIf="calendriers.length > 0" class="calendrier">
+              <div class="flex-container">
+                <h5 class="label">Weekend :</h5>
+                <h6 class="info">
+                  <ng-container *ngFor="let calendrier of calendriers; let last = last">
+                    {{ calendrier.nom }}<span *ngIf="!last"> | </span>
+                  </ng-container>
+                </h6>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,111 @@
+<div  *ngIf="(holidayState$ | async) as state"  [ngSwitch]="state.appState">
+
+  <div >
+    <form #searchForm="ngForm" (ngSubmit)="gotToPage(searchForm.value.query)" class="d-flex mr" role="search">
+      <input type="search" name="query" ngModel class="form-control me-5 flex-grow-1" style="max-width: 900px;" placeholder="Search" aria-label="Search">
+      <div class="p-1 flex-fill button" >
+        <button type="submit" class="btn btn-warning mr-2" >
+          Recherche
+        </button>
+        <button type="submit" class="btn btn-dark mr-3" >
+          Reset
+        </button>
+      </div>
+    </form>
+    <div class="text-center text-danger" *ngSwitchCase="'APP_ERROR'">No Holidays found</div>
+    <div *ngSwitchCase="'APP_LOADING'">
+      <div class="d-flex justify-content-center mt-4">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+    <section class="table__body" *ngSwitchCase="'APP_LOADED'">
+      <h3 class="text-center pt-4 pb-3">Holidays List</h3>
+      <table >
+        <thead >
+        <tr>
+          <th> Holiday Name </th>
+          <th> Holiday Date </th>
+          <th> Holiday Pays </th>
+          <th class="text-center"> Holiday Status </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let societeHoliday of state.appData?.content; let i = index;">
+          <td>{{societeHoliday.holidayDto?.nom}}</td>
+          <td> {{societeHoliday.holidayDto?.date}} </td>
+          <td> {{societeHoliday.holidayDto?.pays}} </td>
+          <td class="text-center">
+            <ng-container [ngSwitch]="societeHoliday.status">
+              <p *ngSwitchCase="Status.JOUR_FERIES_CHOMES_ET_PAYES" class="status-green">CHOMES ET PAYES</p>
+              <p *ngSwitchCase="Status.JOUR_FERIES_CHOMES_ET_NON_PAYES" class="status-red">CHOMES ET NON PAYES</p>
+            </ng-container>
+          </td>
+
+        </tr>
+        </tbody>
+      </table>
+
+    </section>
+    <nav *ngIf="state.appData?.content?.length!  > 0" class="pagination" >
+      <ul>
+        <li class="prev pointer" [ngClass]="0 == (currentPage$ | async) ? ' disabled' : ''">
+          <a (click)="goToNextOrPreviousPage('backward', searchForm.value.query)">Prev</a>
+        </li>
+        <li  *ngFor="let pageNumber of [].constructor(state.appData?.totalPages); let i = index;" class="page pointer" [ngClass]="i == (currentPage$ | async) ? ' active' : ''">
+          <a (click)="gotToPage(searchForm.value.query ,i)">{{ i + 1 }}</a>
+        </li>
+        <li [ngClass]="(state.appData?.totalPages! - 1) == (currentPage$ | async) ? ' disabled' : ''" class="next pointer" >
+          <a (click)="goToNextOrPreviousPage('forward', searchForm.value.query)">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="modal fade" id="nouveauModal" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center " id="staticBackdropLabel1">Update Holiday</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="post" role="form" data-toggle="validator" id="holiday-form">
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="holiday_title">Holiday Title</label>
+                <input type="text" class="form-control" id="holiday_title" name="holiday_title" placeholder="Holiday Title" required />
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="compulsory_holiday">
+                      <input type="radio" value="compulsory" id="compulsory_holiday" name="holiday_type" class="minimal" checked /> CHOMES ET PAYES
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <label for="restricted_holiday">
+                      <input type="radio" value="restricted" id="restricted_holiday" name="holiday_type" class="minimal" /> CHOMES ET NON PAYES
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" >
+            <i class="fas fa-trash-alt"></i>&nbsp;Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

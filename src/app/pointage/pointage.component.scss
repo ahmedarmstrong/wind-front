@@ -1,0 +1,29 @@
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.pointer {
+  cursor: pointer;
+}
+.tablee {
+  background-color: #e6edef;
+  text-align: center;
+}
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+.mr-3 {
+  margin-right: 2rem;
+}
+.mr{
+  margin-left: 2.5rem;
+}
+.blur-effect {
+  filter: blur(8px);
+}
