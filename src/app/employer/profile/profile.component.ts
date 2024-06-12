@@ -5,6 +5,7 @@ import {EmployeService} from "../../../service/employe.service";
 import {CalendrierService} from "../../../service/calendrier.service";
 import {CalendrierDto} from "../../../interface/calendrierDto";
 import {SocieteService} from "../../../service/societe.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-profile',
@@ -23,6 +24,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private router: Router,
               private userService: EmployeService,
+              private location: Location,
               private calendrierService: CalendrierService,
               private societeService: SocieteService,) {
   }
@@ -30,7 +32,6 @@ export class ProfileComponent implements OnInit {
   ngOnInit() {
     this.societeService.findAll().subscribe(societes => {
       this.listeSociete = societes;
-      console.log(this.listeSociete);
     });
     const userId = this.getCurrentUserId();
     this.calendrierService.findCalendrierByUserId(userId!).subscribe({
@@ -50,7 +51,6 @@ export class ProfileComponent implements OnInit {
         .subscribe({
           next: (user) => {
             this.employe = user
-            console.log(user); // Handle the user data as needed
           },
           error: (error) => {
             console.error('Failed to fetch user:', error);
@@ -75,7 +75,10 @@ export class ProfileComponent implements OnInit {
   }
 
   updateEmploye(): void {
-    this.router.navigate(['main/employer/detail/:id']);
+    const userId = this.getCurrentUserId();
+    this.router.navigate(['main/employer/detail/', userId]);
   }
-
+  backButton(): void{
+    this.location.back();
+  }
 }

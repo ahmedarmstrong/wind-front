@@ -1,0 +1,13 @@
+
+<app-user-sidenav-component (onToggleSideNav)="onToggleSideNav($event)"></app-user-sidenav-component>
+<app-user-header
+  [collapsed]="isSideNavCollapsed"
+  [screenWidth]="screenWidth"
+>
+</app-user-header>
+<app-body
+  [collapsed]="isSideNavCollapsed"
+  [screenWidth]="screenWidth"
+>
+</app-body>
+

@@ -1,14 +1,11 @@
 <div  *ngIf="(holidayState$ | async) as state"  [ngSwitch]="state.appState">
 
   <div >
-    <form #searchForm="ngForm" (ngSubmit)="gotToPage(searchForm.value.query)" class="d-flex mr" role="search">
-      <input type="search" name="query" ngModel class="form-control me-5 flex-grow-1" style="max-width: 900px;" placeholder="Search" aria-label="Search">
-      <div class="p-1 flex-fill button" >
-        <button type="submit" class="btn btn-warning mr-2" >
-          Recherche
-        </button>
-        <button type="submit" class="btn btn-dark mr-3" >
-          Reset
+    <h3 class="title">Holidays List</h3>
+    <form #searchForm="ngForm" (ngSubmit)="gotToPage(searchForm.value.query)"  role="search">
+      <div class="ajout">
+        <button type="submit" class="btn btn-warning holl" *ngIf="isAdmin" (click)="detailHoliday()">
+          Modifier
         </button>
       </div>
     </form>
@@ -20,26 +17,25 @@
         </div>
       </div>
     </div>
-    <section class="table__body" *ngSwitchCase="'APP_LOADED'">
-      <h3 class="text-center pt-4 pb-3">Holidays List</h3>
-      <table >
-        <thead >
-        <tr>
-          <th> Holiday Name </th>
-          <th> Holiday Date </th>
-          <th> Holiday Pays </th>
+    <section class="tab" *ngSwitchCase="'APP_LOADED'">
+      <table  class="table box">
+        <thead>
+        <tr class="table-dark ">
+          <th class="hol"> Holiday Name </th>
+          <th class="text-center"> Holiday Date </th>
+          <th class="text-center"> Holiday Pays </th>
           <th class="text-center"> Holiday Status </th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let societeHoliday of state.appData?.content; let i = index;">
-          <td>{{societeHoliday.holidayDto?.nom}}</td>
-          <td> {{societeHoliday.holidayDto?.date}} </td>
-          <td> {{societeHoliday.holidayDto?.pays}} </td>
+        <tr  *ngFor="let societeHoliday of state.appData?.content; let i = index;">
+          <td class="hol1">{{societeHoliday.holidayDto?.nom}}</td>
+          <td class="text-center holl"> {{societeHoliday.holidayDto?.date}} </td>
+          <td class="text-center holl"> {{societeHoliday.holidayDto?.pays}} </td>
           <td class="text-center">
             <ng-container [ngSwitch]="societeHoliday.status">
               <p *ngSwitchCase="Status.JOUR_FERIES_CHOMES_ET_PAYES" class="status-green">CHOMES ET PAYES</p>
-              <p *ngSwitchCase="Status.JOUR_FERIES_CHOMES_ET_NON_PAYES" class="status-red">CHOMES ET NON PAYES</p>
+              <p *ngSwitchCase="Status.JOUR_FERIES_CHOMES_ET_NON_PAYES" class="status-red">CHOMES NON PAYES</p>
             </ng-container>
           </td>
 

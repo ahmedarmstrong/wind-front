@@ -1,1 +1,115 @@
-<p>fiche-paie works!</p>
+<div class="container">
+  <div class="text-center mb-2">
+    <h3 class="title">SIMILATEUR PAIE</h3>
+  </div>
+
+  <div class="row m-5">
+    <div class="col">
+      <div class="card box">
+        <div class="card-header">
+        </div>
+        <div class="card-body">
+          <div class="but p-2 flex-fill ajout">
+            <button type="button" class="btn btn-warning" (click)="toggleButtonText(); resetAllData()">
+              <strong>{{ isBrutToNet ? 'Brut -> Net' : 'Net -> Brut' }}</strong>
+            </button>
+          </div>
+          <div class="container">
+            <div class="row align-items-center mb-3">
+              <div class="col-4">
+                <p class="mb-0 bold textt">Chef de famille</p>
+              </div>
+              <div class="col-8">
+                <div class="margin">
+                  <input type="checkbox" id="check"  [(ngModel)]="isHeadOfFamily" (change)="onFamilyHeadChange()">
+                  <label for="check" class="button"></label>
+                </div>
+              </div>
+            </div>
+            <div class="row align-items-center mb-3">
+              <div class="col-4">
+                <p class="mb-0 bold textt">Nombre d'enfants *</p>
+              </div>
+              <div class="col-8">
+                <select class="form-select slect textt" [(ngModel)]="numberOfChildren" [disabled]="!isHeadOfFamily" (change)="calculateAll()" aria-label="Default select example">
+                  <option [ngValue]="0" selected>0</option>
+                  <option [ngValue]="1">One</option>
+                  <option [ngValue]="2">Two</option>
+                  <option [ngValue]="3">Three</option>
+                  <option [ngValue]="4">Four</option>
+                </select>
+              </div>
+            </div>
+            <div class="row align-items-center mb-3">
+              <div class="col-4 textt">
+                <p class="mb-0 bold" *ngIf="isBrutToNet">Salaire Brut *</p>
+                <p class="mb-0 bold" *ngIf="!isBrutToNet">Salaire Net *</p>
+              </div>
+              <div class="col-8">
+                <!-- Input for salaireBrut when isBrutToNet is true -->
+                <input type="text" class="form-control slect"
+                       [(ngModel)]="salaireBrut"
+                       *ngIf="isBrutToNet"
+                       name="salaireBrut"
+                       placeholder="Enter Gross Salary"
+                       required
+                       (ngModelChange)="onSalaryChange()">
+
+                <!-- Input for estimation when isBrutToNet is false -->
+                <input type="text" class="form-control slect"
+                       [(ngModel)]="estimation"
+                       *ngIf="!isBrutToNet"
+                       name="estimation"
+                       placeholder="Enter Net Estimation"
+                       required
+                       (ngModelChange)="onEstimationChange()">
+              </div>
+            </div>
+          </div>
+          <div class=" but p-2 flex-fill ajout" >
+            <button type="button" class="btn btn-warning" (click)="calculateAll()">
+              Calculer
+            </button>
+          </div>
+          <div class="divider"></div>
+          <section class="section">
+            <div class="left-column">
+              <div class="row-item info" *ngIf="isBrutToNet">
+                <span class="label">salaire brut</span>
+                <span class="value" >{{ isBrutToNet ? salaireBrut : getSalairy }}</span>
+              </div>
+              <div class="row-item info" *ngIf="!isBrutToNet">
+                <span class="label">salaire net</span>
+                <span class="value" >{{ isBrutToNet ? netSalary : estimation }}</span>
+              </div>
+              <div class="row-item">
+                <span class="label">Retenue CNSS: </span>
+                <span class="value" >{{cnss}}</span>
+              </div>
+              <div class="row-item">
+                <span class="label">Salaire Brut Imposable:</span>
+                <span class="value">{{salaireImposable}}</span>
+              </div>
+              <div class="row-item">
+                <span class="label">Retenue à la source: </span>
+                <span class="value" >{{irpp}}</span>
+              </div>
+              <div class="row-item">
+                <span class="label">Contribution sociale de solidarité: </span>
+                <span class="value" >{{css}}</span>
+              </div>
+              <div class="row-item" *ngIf="isBrutToNet">
+                <span class="labell" >Salaire Net : </span>
+                <span class="valuee" >{{ isBrutToNet ? netSalary : estimation }}</span>
+              </div>
+              <div class="row-item" *ngIf="!isBrutToNet">
+                <span class="labell" >Salaire Brut: </span>
+                <span class="valuee" >{{ isBrutToNet ? salaireBrut : getSalairy }}</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

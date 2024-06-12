@@ -9,12 +9,30 @@
   height: 30px;
   line-height: 30px;
   text-align: left;
+  color: black;
 }
 
 .info {
   width: calc(100% - 110px);
   height: 30px;
   line-height: 30px;
+  color: black;
+}
+.textt{
+  font-weight: bold;
+  color: black;
 }
 .align{
   text-align: right;}
+.title{
+  font-weight: bold;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+.ajout{
+  margin-right: 2rem;
+}
+.ajout button{
+  padding-left: 40px;
+  padding-right: 40px;
+}

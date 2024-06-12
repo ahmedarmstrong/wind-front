@@ -1,57 +1,72 @@
 <div *ngIf="(employesState$ | async) as state"  [ngSwitch]="state.appState">
 
-    <div >
-      <form #searchForm="ngForm" (ngSubmit)="gotToPage(searchForm.value.query)" class="d-flex mr" role="search">
-        <input type="search" name="query" ngModel class="form-control me-5 flex-grow-1" style="max-width: 900px;" placeholder="Search Employes" aria-label="Search">
-        <!--<button class="btn btn-warning btn-sm me-3" type="submit" style="flex: 1 1 auto;">Rechercher</button>
-        <button class="btn btn-dark btn-sm" type="submit" style="flex: 3 3 auto;" (click)="resetForm(searchForm)">Reset</button>-->
-        <div class="p-1 flex-fill button" >
-         <button type="submit" class="btn btn-warning mr-2" >
-           Recherche
-         </button>
-         <button type="submit" class="btn btn-dark mr-3" (click)="resetForm(searchForm)">
-           Reset
-         </button>
-       </div>
-      </form>
+  <h3 class="title">Gestion Empoloyés</h3>
+    <div>
+      <div class="ajout">
+        <button type="submit" class="btn btn-warning textt" (click)="ajouterEmployer()">
+          Ajouter un collaborateur
+        </button>
+        <i class="fa fa-info-circle" aria-hidden="true"></i>
+      </div>
+      <div class="">
+        <div class="card m-5">
+          <div class="card-body box">
+            <form #searchForm="ngForm" (ngSubmit)="gotToPage(searchForm.value.nom, searchForm.value.prenom, searchForm.value.matricule, searchForm.value.grade)" class="row g-3 align-items-center" role="search">
+              <!-- Inputs -->
+              <div class="col-md-2">
+                <input type="search" name="nom" ngModel class="form-control" (ngModelChange)="onFormChange(searchForm.value.nom, searchForm.value.prenom, searchForm.value.matricule, searchForm.value.grade)"  placeholder="Nom">
+              </div>
+              <div class="col-md-2">
+                <input type="text" name="prenom" ngModel class="form-control"  (ngModelChange)="onFormChange(searchForm.value.nom, searchForm.value.prenom, searchForm.value.matricule, searchForm.value.grade)"  placeholder="Prenom">
+              </div>
+              <div class="col-md-2">
+                <input type="text" name="matricule" ngModel class="form-control" (ngModelChange)="onFormChange(searchForm.value.nom, searchForm.value.prenom, searchForm.value.matricule, searchForm.value.grade)"  placeholder="Matricule">
+              </div>
+              <div class="col-md-2">
+                <input type="text" name="grade" ngModel class="form-control" (ngModelChange)="onFormChange(searchForm.value.nom, searchForm.value.prenom, searchForm.value.matricule, searchForm.value.grade)"  placeholder="Departement">
+              </div>
+              <!-- Button group -->
+              <div class="col-md-4 button-group justify-content-end">
+                <button type="submit" class="btn btn-warning textt">Rechercher</button>
+                <button type="button" class="btn btn-dark ml-2 text" (click)="resetForm(searchForm)">Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
       <div class="text-center text-danger" *ngSwitchCase="'APP_ERROR'">No Employes found</div>
       <div *ngSwitchCase="'APP_LOADING'">
+
         <div class="d-flex justify-content-center mt-4">
           <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
           </div>
         </div>
       </div>
-      <div class="table__body" *ngSwitchCase="'APP_LOADED'">
-        <h3 class="text-center pt-4 pb-3">Employes List</h3>
-        <table >
+      <div class="tab" *ngSwitchCase="'APP_LOADED'">
+        <table class="table box">
           <thead>
-          <tr>
-            <th>ID</th>
+          <tr class="table-dark text-center">
             <th >Prenom</th>
             <th >Nom</th>
-            <th >Grade</th>
             <th>Matricule</th>
-            <th >Cin</th>
-            <th >Societe</th>
+            <th >Email</th>
+            <th >Departement</th>
             <th >Situation</th>
-            <th >N° Enfant</th>
             <th >N° Tel</th>
-            <th >Salaire Brut</th>
+            <th >Salaire Net</th>
           </tr>
           </thead>
           <tbody>
 
-          <tr *ngFor="let employe of state.appData?.content; let i = index;" >
-            <th scope="row">{{employe.id}}</th>
+          <tr class="pointer text-center textt" *ngFor="let employe of state.appData?.content; let i = index;"  (click)="onRowClick(employe.id!)">
             <td>{{employe.prenom}}</td>
             <td>{{employe.nom}}</td>
-            <td>{{employe.grade}}</td>
             <td>{{employe.matricule}}</td>
-            <td>{{employe.cin}}</td>
-            <td>{{ getSocieteNameById(employe.societeId) }}</td>
+            <td>{{employe.email}}</td>
+            <td>{{employe.grade}}</td>
             <td>{{employe.situation}}</td>
-            <td>{{employe.nbrEnfant}}</td>
             <td>{{employe.tel}}</td>
             <td>{{employe.salaireNet}}</td>
           </tr>
@@ -59,16 +74,26 @@
         </table>
 
       </div>
-      <nav *ngIf="state.appData?.content?.length!  > 0" class="pagination" >
+      <nav *ngIf="state.appData?.content?.length! > 0" class="pagination">
+        <select class="slc" id="pageSize" [(ngModel)]="size" (ngModelChange)="loadUsers()">
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+        </select>
         <ul>
-          <li class="prev pointer" [ngClass]="0 == (currentPage$ | async) ? ' disabled' : ''">
-            <a (click)="goToNextOrPreviousPage('backward', searchForm.value.query)">Prev</a>
+          <li class="prev pointer" [ngClass]="0 == (currentPage$ | async) ? 'disabled' : ''">
+            <a (click)="goToNextOrPreviousPage('backward', searchForm.value.nom, searchForm.value.prenom, searchForm.value.matricule, searchForm.value.grade)">Prev</a>
           </li>
-          <li  *ngFor="let pageNumber of [].constructor(state.appData?.totalPages); let i = index;" class="page pointer" [ngClass]="i == (currentPage$ | async) ? ' active' : ''">
-            <a (click)="gotToPage(searchForm.value.query ,i)">{{ i + 1 }}</a>
+          <li *ngFor="let pageNumber of getVisiblePages(currentPage$ | async, state.appData?.totalPages!); let i = index" class="page pointer" [ngClass]="pageNumber == (currentPage$ | async) ? 'active' : ''">
+            <a (click)="gotToPage(searchForm.value.nom, searchForm.value.prenom, searchForm.value.matricule, searchForm.value.grade, pageNumber)">{{ pageNumber + 1 }}</a>
           </li>
-          <li [ngClass]="(state.appData?.totalPages! - 1) == (currentPage$ | async) ? ' disabled' : ''" class="next pointer" >
-            <a (click)="goToNextOrPreviousPage('forward', searchForm.value.query)">Next</a>
+          <li [ngClass]="(state.appData?.totalPages! - 1) == (currentPage$ | async) ? 'disabled' : ''" class="next pointer">
+            <a (click)="goToNextOrPreviousPage('forward', searchForm.value.nom, searchForm.value.prenom, searchForm.value.matricule, searchForm.value.grade)">Next</a>
           </li>
         </ul>
       </nav>

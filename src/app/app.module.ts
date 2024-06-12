@@ -11,22 +11,35 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { HeaderComponent } from './header/header.component';
 import {CdkMenuModule} from "@angular/cdk/menu";
 import {OverlayModule} from "@angular/cdk/overlay";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import { FichePaieComponent } from './fiche-paie/fiche-paie.component';
 import { LoginComponent } from './login/login.component';
-import {HttpInterceptor} from "../helpers/http.interceptor";
 import { MainComponentComponent } from './main-component/main-component.component';
 import { LoaderComponent } from './composants/loader/loader.component';
 import { HolidaysComponent } from './holidays/holidays.component';
 import { AccessDeniedComponent } from './access-denied/access-denied.component';
 import { SplashScreenComponent } from './composants/splash-screen/splash-screen.component';
 import {HttpInterceptorsModule} from "../helpers/httpInterceptorsModule.module";
+import { AlertComponent } from './composants/alert/alert.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import {UserSidenavComponentComponent} from "./user-dashboard/user-sidenav-component/user-sidenav-component.component";
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { UserHeaderComponent } from './user-dashboard/user-header/user-header.component';
+import { UserDataComponent } from './user-dashboard/user-data/user-data.component';
+import { UserPaieComponent } from './user-dashboard/user-paie/user-paie.component';
+import {Paie} from "./paie/paie.component";
+import {ListHolidayComponent} from "./list-holiday/list-holiday.component";
+import { UpdatePasswordComponent } from './user-dashboard/update-password/update-password.component';
+import {ToastrModule} from "ngx-toastr";
+import { DashComponent } from './user-dashboard/dash/dash.component';
+import { ConfirmDialogComponent } from './composants/confirm-dialog/confirm-dialog.component';
+import { SpinnerComponent } from './composants/spinner/spinner.component';
 
 export function loadCrucialData() {
   return function() {
     // or use UserService
-    return delay(60);
+    return delay(540);
   }
 }
 
@@ -52,6 +65,19 @@ export function delay(delay: number) {
     HolidaysComponent,
     AccessDeniedComponent,
     SplashScreenComponent,
+    AlertComponent,
+    UserDashboardComponent,
+    ForgetPasswordComponent,
+    UserHeaderComponent,
+    UserDataComponent,
+    UserPaieComponent,
+    Paie,
+    ListHolidayComponent,
+    UpdatePasswordComponent,
+    DashComponent,
+    ConfirmDialogComponent,
+    SpinnerComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -62,7 +88,12 @@ export function delay(delay: number) {
     CdkMenuModule,
     HttpClientModule,
     FormsModule,
-    HttpInterceptorsModule
+    HttpInterceptorsModule,
+    UserSidenavComponentComponent,
+/*
+    MatProgressSpinnerModule,
+*/
+    ToastrModule.forRoot(),
   ],
   providers: [
     provideClientHydration(),
@@ -70,6 +101,6 @@ export function delay(delay: number) {
   ],
   exports: [
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -1,13 +1,14 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {SocieteDto} from "../interface/societeDto";
-import {Observable} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {SocieteHolidaysDto} from "../interface/societeHolidaysDto";
 import {Page} from "../interface/page";
 import {UserDto} from "../interface/userDto";
 import {RegimeDto} from "../interface/regimeDto";
 import {SocieteHolidaysRequest} from "../interface/societeHolidaysRequest";
 import {Status} from "../interface/status";
+import {catchError} from "rxjs/operators";
 
 
 
@@ -23,7 +24,14 @@ export class SocieteHolidaysService {
 
     return   this.http.get<SocieteHolidaysDto[]>
     (this.serverUrl + 'all')
-  };
+      .pipe(
+        catchError(err => {
+          console.log(err);
+
+          return throwError(() =>  new Error(err.error.message))
+        }),
+      );
+  }
 
 
   holidays$ = (page: number = 0, size: number = 6): Observable<Page<SocieteHolidaysDto>> => {
@@ -32,9 +40,14 @@ export class SocieteHolidaysService {
       // Handle the scenario where societeId is not available. Perhaps return an empty observable or error observable.
       throw new Error('societeId is not available'); // Or handle this more gracefully
     }
-    return this.http.get<Page<SocieteHolidaysDto>>(`${this.serverUrl}find?societeId=${societeId}&page=${page}&size=${size}`);
-  }
+    return this.http.get<Page<SocieteHolidaysDto>>(`${this.serverUrl}find?societeId=${societeId}&page=${page}&size=${size}`).pipe(
+      catchError(err => {
+        console.log(err);
 
+        return throwError(() =>  new Error(err.error.message))
+      }),
+    );
+  }
 
 
 
@@ -47,7 +60,13 @@ export class SocieteHolidaysService {
        // You might want to return an Observable here that indicates the error
     }
 
-    return this.http.get(`${this.serverUrl}find/list?societeId=${societeId}`);
+    return this.http.get(`${this.serverUrl}find/list?societeId=${societeId}`).pipe(
+      catchError(err => {
+        console.log(err);
+
+        return throwError(() =>  new Error(err.error.message))
+      }),
+    );
   }
 
   private getCurrentUserSocieteId(): number | undefined {
@@ -70,10 +89,34 @@ export class SocieteHolidaysService {
       status: status
     };
 
-    return this.http.post<SocieteHolidaysRequest>(this.serverUrl + 'create', model);
+    return this.http.post<SocieteHolidaysRequest>(this.serverUrl + 'create', model).pipe(
+      catchError(err => {
+        console.log(err);
+
+        return throwError(() =>  new Error(err.error.message))
+      }),
+    ).pipe(
+      catchError(err => {
+        console.log(err);
+
+        return throwError(() =>  new Error(err.error.message))
+      }),
+    );
   }
 
   delete(holidayId: number) {
-    return this.http.delete(this.serverUrl + 'delete/' + holidayId);
+    return this.http.delete(this.serverUrl + 'delete/' + holidayId).pipe(
+      catchError(err => {
+        console.log(err);
+
+        return throwError(() =>  new Error(err.error.message))
+      }),
+    ).pipe(
+      catchError(err => {
+        console.log(err);
+
+        return throwError(() =>  new Error(err.error.message))
+      }),
+    );
   }
 }

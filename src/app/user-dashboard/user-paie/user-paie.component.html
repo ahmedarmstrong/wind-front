@@ -1,0 +1,71 @@
+<div>
+  <h3 class="title">Fiche De Paie</h3>
+  <div *ngIf="errorMessage" [ngClass]="{'alert-success': messageType === 'success', 'alert-error': messageType === 'error'}" class="alert">
+    <span class="fas fa-exclamation-circle"></span>
+    <span class="msg">{{ errorMessage }}</span>
+    <span class="close-btn" (click)="errorMessage = ''">
+    <span class="fas fa-times"></span>
+  </span>
+  </div>
+ <!-- <div class="">
+    <div class="card m-5">
+      <div class="card-body box">
+        <div class="row g-3 align-items-center">
+          &lt;!&ndash; Inputs &ndash;&gt;
+          <div class="col-md-2">
+            <select [(ngModel)]="name" class="form-select" >
+              <option  [value]="users.nom!+ users.prenom!">
+                {{ users.nom }} {{users.prenom}}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <select [(ngModel)]="month" class="form-select">
+              <option *ngFor="let month of months" [value]="month.value">
+                {{ month.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <input type="text"  [(ngModel)]="year" class="form-control" placeholder="Year">
+          </div>
+          &lt;!&ndash; Button group &ndash;&gt;
+          <div class="col button-group justify-content-end">
+            <button type="button" class="btn btn-warning textt" (click)="fetchDocument()">Rechercher</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+  <div>
+
+   <div class="tab">
+      <table class="table box">
+        <thead>
+        <tr>
+        <tr class="table-dark">
+          <th></th>
+          <th scope="col">Nom</th>
+          <th scope="col">Prenom</th>
+          <th scope="col">Mois</th>
+          <th scope="col">Annee</th>
+          <th class="align-end">Action</th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr class="textt" *ngFor="let fiche of parsedFicheNames">
+          <th></th>
+          <td>{{ fiche.nom }}</td>
+          <td>{{ fiche.prenom }}</td>
+          <td>{{ fiche.mois }}</td>
+          <td>{{ fiche.annee }}</td>
+          <td class="align-end"><a class="pointer" (click)="openDocument(fiche.nom + fiche.prenom + '-' + fiche.mois + '-' + fiche.annee + '.pdf')">View Details</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+
+  </div>
+</div>

@@ -8,6 +8,7 @@ export interface UserDto {
     email?: string;
     password?: string;
     dateNaissance?: string;
+    dateEmbauche?: string;
     matricule?: string;
     cin?: string;
     situation?: string;
@@ -15,6 +16,8 @@ export interface UserDto {
     tel?: string;
     salaireNet?: string;
     grade?: string;
+    diplome?: string;
+    cnss?: string;
     societeId?: number;
     role?: Role ;
 }

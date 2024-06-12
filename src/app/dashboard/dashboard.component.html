@@ -1,25 +1,31 @@
-<div class="container">
-  <div class="row m-5">
-    <div class="col">
-      <div class="card">
-        <div class="card-header">
-          Connected user information :
-        </div>
-        <div class="card-body">
-          <div *ngIf="user">
-            <p>ID: {{user.id}}</p>
-            <p>Email: {{user.email}}</p>
-            <p>Role: {{user.role.name}} </p>
-            <strong>Permissions:</strong>
-            <ul>
-              <li *ngFor="let p of user.role.permissions">
-                {{ p }}
-              </li>
-            </ul>
-          </div>
-          Message :<p>{{pubContent}}</p>
+
+  <section class="main">
+    <div class="card">
+      <div  class="main-skills">
+        <div *ngFor="let grade of grades" class="card">
+          <i class="fas fa-laptop-code"></i>
+          <h3>Departement {{ grade }}</h3>
+          <h5>{{ userCounts[grade] || 0 }}</h5>
         </div>
       </div>
     </div>
-  </div>
-</div>
+    <div class="welcom">
+      <div class="card">
+        <div class="card-header">
+          <h2>Welcome Back !</h2>
+          <p>Dashboard Admin</p>
+        </div>
+        <div class="card-image">
+          <img src="../../assets/flags/user.jpg" alt="Profile Picture">
+        </div>
+        <div class="card-body">
+          <h3>{{employe.nom}} {{employe.prenom}}</h3>
+          <p>{{employe.role}}</p>
+          <div class="card-footer">
+            <a (click)="viewProfile()">View Profile <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </section>

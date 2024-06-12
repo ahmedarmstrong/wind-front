@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {RegimeDto} from "../interface/regimeDto";
 import {HolidayDto} from "../interface/holidayDto";
+import {catchError} from "rxjs/operators";
+import {throwError} from "rxjs";
 
 
 
@@ -16,20 +18,45 @@ export class HolidaysService {
   findAll() {
 
     return   this.http.get<HolidayDto[]>
-    (this.serverUrl + 'all')
-  };
+    (this.serverUrl + 'all').pipe(
+      catchError(err => {
+        console.log(err);
+
+        return throwError(() =>  new Error(err.error.message))
+      }),
+    );
+  }
 
   findAllByPays(pays:String) {
 
     return   this.http.get<HolidayDto[]>
-    (`${this.serverUrl}all/${pays}`)
-  };
+    (`${this.serverUrl}all/${pays}`).pipe(
+      catchError(err => {
+        console.log(err);
+
+        return throwError(() =>  new Error(err.error.message))
+      }),
+    );
+  }
 
   saveHoliday(model:any) {
-    return this.http.post<HolidayDto>(this.serverUrl + 'create', model);
+    return this.http.post<HolidayDto>(this.serverUrl + 'create', model).pipe(
+      catchError(err => {
+        console.log(err);
+
+        return throwError(() =>  new Error(err.error.message))
+      }),
+    );
   }
 
   delete(holidayId: number) {
-    return this.http.delete(this.serverUrl + 'delete/' + holidayId);
+    return this.http.delete(this.serverUrl + 'delete/' + holidayId)
+      .pipe(
+        catchError(err => {
+          console.log(err);
+
+          return throwError(() =>  new Error(err.error.message))
+        }),
+      );
   }
 }

@@ -1,0 +1,232 @@
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.pointer {
+  cursor: pointer;
+}
+.table__body {
+  width: 95%;
+  max-height: calc(89% - 1.6rem);
+  background-color: #fffb;
+
+  margin: .8rem auto;
+  border-radius: .6rem;
+
+  overflow: auto;
+}
+.tab {
+  margin: 3rem;
+}
+.box{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.87);
+}
+td img {
+  width: 36px;
+  height: 36px;
+  margin-right: .5rem;
+  border-radius: 50%;
+
+  vertical-align: middle;
+}
+
+.aj{
+  justify-content: end;
+  text-align: right;
+}
+.textt{
+  color: black;
+  font-weight: bold;
+}
+.text{
+  color: white;
+  font-weight: bold;
+}
+.status {
+  padding: .2rem;
+  border-radius: 2rem;
+  text-align: center;
+}
+
+.status.delivered {
+  background-color: #86e49d;
+  color: #006b21;
+}
+
+.status.cancelled {
+  background-color: #d893a3;
+  color: #b30021;
+}
+
+.status.pending {
+  background-color: #ebc474;
+}
+
+
+
+@media (max-width: 1000px) {
+  td:not(:first-of-type) {
+    min-width: 12.1rem;
+  }
+}
+.button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+.mr-3 {
+  margin-right: 2rem;
+}
+.mr{
+  margin-left: 2.5rem;
+}
+.compact-form .form-control, .compact-form .btn {
+  height: 38px; /* Reduce the height */
+  padding: 6px 12px; /* Adjust padding to reduce size */
+  font-size: 14px; /* Adjust font size for better fit */
+}
+.compact-form .form-group {
+  margin-bottom: 8px; /* Reduce space between form elements */
+}
+thead th span.icon-arrow {
+  display: inline-block;
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  border: 1.4px solid transparent;
+
+  text-align: center;
+  font-size: 1rem;
+
+  margin-left: .5rem;
+  transition: .2s ease-in-out;
+}
+
+thead th:hover span.icon-arrow{
+  border: 1.4px solid #ffc107;
+}
+
+thead th:hover {
+  color: #ffc107;
+}
+
+thead th.active span.icon-arrow{
+  background-color: #ffc107;
+  color: #fff;
+}
+
+thead th.asc span.icon-arrow{
+  transform: rotate(180deg);
+}
+
+thead th.active,tbody td.active {
+  color: #ffc107;
+}
+
+.pagination{
+  justify-content: end;
+  margin-right: 20px;
+}
+
+.pagination ul{
+  background: #fff;
+  display: flex;
+  padding: 10px 20px;
+  border-radius: 50px;
+}
+.pagination ul li{
+  list-style: none;
+  line-height: 50px;
+  margin: 0 5px;
+}
+
+.pagination ul li a{
+  display: block;
+  text-decoration: none;
+  color: #1d2630;
+  border-radius: 50%;
+}
+.pagination ul li.page{
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+}
+
+.pagination ul li.page:hover a,
+.pagination ul li.page.active a{
+  background:  #ffc107;
+  color: #fff;
+  font-weight: bold;
+}
+.pagination ul li.prev:hover a,
+.pagination ul li.next:hover a{
+  color: #ffc107;
+}
+
+.pagination ul li.prev{
+  margin-right: 20px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.pagination ul li.next {
+  margin-left: 20px;
+  font-weight: bold;
+  font-size: 20px;
+}
+.input-field {
+  width: 250px; /* Adjust this value based on your preference */
+}
+.button-group {
+  align-items: center;
+  display: flex;
+}
+.button-group button {
+  margin: 0 10px;
+  width: 150px;
+  border-radius: 10px;
+}
+.slc{
+  margin-top: 10px;
+  margin-right: 20px;
+  width: 70px;
+  height: 50px;
+  align-items: center;
+  border-radius: 5px;
+}
+.title{
+  font-weight: bold;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+.ajout{
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 5rem;
+}
+.ajout button{
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.ajout i {
+  margin-left: 1rem;
+  margin-top: 10px;
+}
+.image-preview-container {
+  position: relative;
+  display: inline-block;
+}
+
+.image-preview {
+  position: absolute;
+  width: 200px; /* Adjust based on your image size */
+  top: 100%;    /* Adjust based on your needs */
+  left: 50%;
+  transform: translateX(-50%);
+  display: block; /* Ensure the preview is shown when active */
+}

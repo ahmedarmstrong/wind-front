@@ -1,0 +1,34 @@
+<div class="head" [ngClass]="getHeadClass()">
+  <div class="head-content">
+    <div class="head-content-left">
+      <div class="search-container">
+
+
+      </div>
+    </div>
+    <div class="head-content-right">
+      <div class="head-user-avatar-container">
+        <div class="head-user-avatar" [cdkMenuTriggerFor]="userOverlay">
+          <img src="../../assets/flags/user.jpg" class="user-avatar" alt="user">
+          <div class="circle-indicator pulse"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<ng-template #userOverlay>
+  <div class="overlay overlay-user overlay-fall" cdkMenu>
+    <ul>
+      <li *ngFor="let item of userItems">
+        <a (click)="navigate(item.path)">
+          <i class="icon" [ngClass]="item.icon"></i>
+          <span class="textt">{{item.Label}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</ng-template>
+
+

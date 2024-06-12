@@ -1,7 +1,8 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {SocieteDto} from "../interface/societeDto";
-import {Observable} from "rxjs";
+import {Observable, throwError} from "rxjs";
+import {catchError} from "rxjs/operators";
 
 
 
@@ -16,22 +17,13 @@ export class SocieteService {
   findAll() {
 
     return   this.http.get<SocieteDto[]>
-    (this.serverUrl + 'all')
-  };
+    (this.serverUrl + 'all').pipe(
+      catchError(err => {
+        console.log(err);
 
-  saveRegime(model:any) {
-    return this.http.post<SocieteDto>(this.serverUrl + 'create', model);
+        return throwError(() =>  new Error(err.error.message))
+      }),
+    );
   }
 
-  delete(societeId: number) {
-    return this.http.delete(this.serverUrl + 'delete/' + societeId);
-  }
-
- /* findSocieteByIdUser(userId : number){
-    return this.http.get(this.serverUrl + 'find/' + userId)
-  }*/
-
-  findSocieteByIdUser(userId: number | undefined): Observable<any> {
-    return this.http.get(`${this.serverUrl}find/${userId}`);
-  }
 }

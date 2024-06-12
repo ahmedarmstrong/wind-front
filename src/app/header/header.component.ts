@@ -68,8 +68,9 @@ export class HeaderComponent implements OnInit{
 
   navigateToUserDetail(): void {
     const userId = this.getCurrentUserId();
+    console.log("this:",userId)
     if (userId) {
-      this.router.navigate(['/profile', userId]);
+      this.router.navigate(['/main/employer/profile/', userId]);
     } else {
       console.error('No user ID found');
     }

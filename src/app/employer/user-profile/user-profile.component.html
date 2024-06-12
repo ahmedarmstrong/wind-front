@@ -1,0 +1,167 @@
+<div>
+  <h3 class="title">User Detail</h3>
+
+  <div class="p-2 d-flex justify-content-between" *ngIf="isNouveauVisible">
+    <!-- First button aligned to the left -->
+    <div class="flex-grow-1">
+      <button type="button" class="btn btn-warning" (click)="backButton()">
+        <i class="fa fa-reply" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <!-- Spacer element -->
+    <div class="flex-grow-1 d-flex justify-content-end">
+      <!-- Second button: Modifier -->
+      <button type="button" class="btn btn-warning textt me-2 " (click)="updateEmploye()">
+        Modifier
+      </button>
+      <!-- Third button: Supprimer -->
+      <button type="button" data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-dark" (click)="prepareModal(employe.id!)">
+        Supprimer
+      </button>
+    </div>
+  </div>
+  <div class="card" >
+    <div class="card-body row">
+
+      <div class="col">
+        <h5 class="heading">Contact Information</h5>
+        <ul >
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Nom : </h5>
+              <h6 class="info">{{employe.nom}}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Prenom : </h5>
+              <h6 class="info">{{employe.prenom}}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Email : </h5>
+              <h6 class="info">{{employe.email}}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Matricule : </h5>
+              <h6 class="info">{{employe.matricule}}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">C I N : </h5>
+              <h6 class="info">{{employe.cin}}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">N° Tel : </h5>
+              <h6 class="info">{{employe.tel}}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">N° CNSS : </h5>
+              <h6 class="info">{{employe.cnss}}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Role : </h5>
+              <h6 class="info">{{employe.role}}</h6>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="col">
+        <h5 class="heading">Basic Information</h5>
+        <ul>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Societe : </h5>
+              <h6 class="info">{{ getSocieteNameById(employe.societeId) }}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Grade : </h5>
+              <h6 class="info">{{employe.grade}}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Diplome : </h5>
+              <h6 class="info">{{employe.diplome}}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Salaire: </h5>
+              <h6 class="info">{{employe.salaireNet}} D</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Birthday : </h5>
+              <h6 class="info">{{employe.dateNaissance}}</h6>
+            </div>
+          </li>
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">DateEmb : </h5>
+              <h6 class="info">{{employe.dateEmbauche}}</h6>
+            </div>
+          </li>
+          <!--  <li class="phone">
+              <div class="flex-container">
+                <h5 class="label">Gender : </h5>
+                <h6 class="info">Male</h6>
+              </div>
+            </li>-->
+          <li class="phone">
+            <div class="flex-container">
+              <h5 class="label">Sutiation : </h5>
+              <h6 class="info">{{employe.situation}}</h6>
+            </div>
+          </li>
+          <li *ngIf="calendriers.length > 0" class="calendrier">
+            <div class="flex-container">
+              <h5 class="label">Weekend :</h5>
+              <h6 class="info">
+                <ng-container *ngFor="let calendrier of calendriers; let last = last">
+                  {{ calendrier.nom }}<span *ngIf="!last"> | </span>
+                </ng-container>
+              </h6>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="myModal" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body textt">
+          Etes vous-sur de vouloir supprimer cette Employer?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark text" data-bs-dismiss="modal" >Close</button>
+
+          <button type="button" class="btn btn-warning textt" data-bs-dismiss="modal"  (click)="deleteEmployer()">
+            <i class="fas fa-trash-alt"></i>&nbsp;Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

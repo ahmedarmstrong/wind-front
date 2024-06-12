@@ -1,3 +1,4 @@
+
 .disabled {
   pointer-events: none;
   opacity: 0.6;
@@ -16,12 +17,12 @@
 
   overflow: auto;
 }
-
-
-table {
-  width: 100%;
+.tab {
+  margin: 3rem;
 }
-
+.box{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.87);
+}
 td img {
   width: 36px;
   height: 36px;
@@ -31,62 +32,7 @@ td img {
   vertical-align: middle;
 }
 
-table, th, td {
-  border-collapse: collapse;
-  padding: 1rem;
-  text-align: left;
-}
 
-thead th {
-  position: sticky;
-  top: 0;
-  left: 0;
-  background-color: #d5d1defe;
-  cursor: pointer;
-  text-transform: capitalize;
-}
-
-tbody tr:nth-child(even) {
-  background-color: #0000000b;
-}
-
-tbody tr {
-  --delay: .1s;
-  transition: .5s ease-in-out var(--delay), background-color 0s;
-}
-
-tbody tr.hide {
-  opacity: 0;
-  transform: translateX(100%);
-}
-td button{
-  margin-right:10px;
-
-
-}
-
-tbody tr:hover {
-  background-color: #fff6 !important;
-}
-
-tbody tr td,
-tbody tr td p,
-tbody tr td img {
-  transition: .2s ease-in-out;
-}
-
-tbody tr.hide td,
-tbody tr.hide td p {
-  padding: 0;
-  font: 0 / 0 sans-serif;
-  transition: .2s ease-in-out .5s;
-}
-
-tbody tr.hide td img {
-  width: 0;
-  height: 0;
-  transition: .2s ease-in-out .5s;
-}
 
 .status {
   padding: .2rem;
@@ -129,7 +75,14 @@ tbody tr.hide td img {
 .mr{
   margin-left: 2.5rem;
 }
-
+.compact-form .form-control, .compact-form .btn {
+  height: 38px; /* Reduce the height */
+  padding: 6px 12px; /* Adjust padding to reduce size */
+  font-size: 14px; /* Adjust font size for better fit */
+}
+.compact-form .form-group {
+  margin-bottom: 8px; /* Reduce space between form elements */
+}
 thead th span.icon-arrow {
   display: inline-block;
   width: 1.3rem;
@@ -145,15 +98,15 @@ thead th span.icon-arrow {
 }
 
 thead th:hover span.icon-arrow{
-  border: 1.4px solid #6c00bd;
+  border: 1.4px solid #ffc107;
 }
 
 thead th:hover {
-  color: #6c00bd;
+  color: #ffc107;
 }
 
 thead th.active span.icon-arrow{
-  background-color: #6c00bd;
+  background-color: #ffc107;
   color: #fff;
 }
 
@@ -162,7 +115,7 @@ thead th.asc span.icon-arrow{
 }
 
 thead th.active,tbody td.active {
-  color: #6c00bd;
+  color: #ffc107;
 }
 
 .pagination{
@@ -197,13 +150,13 @@ thead th.active,tbody td.active {
 
 .pagination ul li.page:hover a,
 .pagination ul li.page.active a{
-  background:  #d4205c;
+  background:  #ffc107;
   color: #fff;
   font-weight: bold;
 }
 .pagination ul li.prev:hover a,
 .pagination ul li.next:hover a{
-  color: #d4205c;
+  color: #ffc107;
 }
 
 .pagination ul li.prev{
@@ -216,4 +169,49 @@ thead th.active,tbody td.active {
   font-weight: bold;
   font-size: 20px;
 }
-
+.input-field {
+  width: 250px; /* Adjust this value based on your preference */
+}
+.button-group {
+  align-items: center;
+  display: flex;
+}
+.button-group button {
+  margin: 0 10px;
+  width: 150px;
+  border-radius: 10px;
+}
+.slc{
+  margin-top: 10px;
+  margin-right: 20px;
+  width: 70px;
+  height: 50px;
+  align-items: center;
+  border-radius: 5px;
+}
+.title{
+  font-weight: bold;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+.ajout{
+  display: flex;
+  justify-content: flex-start;
+  margin-left: 5rem;
+}
+.ajout button{
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.ajout i {
+  margin-left: 1rem;
+  margin-top: 10px;
+}
+.textt{
+  font-weight: bold;
+  color: black;
+}
+.text{
+  font-weight: bold;
+  color: white;
+}

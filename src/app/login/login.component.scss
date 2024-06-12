@@ -7,7 +7,26 @@
 * {
   box-sizing: border-box;
 }
+.modal {
+  pointer-events: none;
+}
 
+.modal-dialog {
+  pointer-events: all;
+}
+.close {
+  border-radius: 50%;
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.close:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
 html {
   scroll-behavior: smooth;
   height: 100%;
@@ -252,4 +271,28 @@ h1 {
 }
 //modal
 
-
+.mod{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 350px;
+  background-color: white;
+  padding: 20px;
+  border: 1px solid black;
+  box-shadow: 10px 10px 5px #888888;
+}
+.mod button {
+  margin: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.textt{
+  font-weight: bold;
+  color: black;
+}
+.text{
+  font-weight: bold;
+  color: white;
+}

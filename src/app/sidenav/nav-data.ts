@@ -8,19 +8,9 @@ export  const  navbarDAta: INavbarData[] = [
     label: 'Dashboard'
   },
   {
-    routeLink: 'employer',
+    routeLink: 'employer/list',
     icon: 'fal fa-user',
     label: 'Employer',
-    items: [
-      {
-        routeLink: 'employer/list',
-        label: 'Liste Employee'
-      },
-      {
-        routeLink: 'employer/create',
-        label: 'Ajouter Employee'
-      }
-    ]
   },
   {
     routeLink: 'pointage',
@@ -30,28 +20,17 @@ export  const  navbarDAta: INavbarData[] = [
   {
     routeLink: 'ficheDePaie',
     icon: 'fal fa-credit-card',
-    label: 'FicheDePaie'
+    label: 'Paie'
   },
   {
     routeLink: 'holidays',
-    icon: 'fa fa-calculator',
+    icon: 'fa fa-calendar',
     label: 'Holidays',
-    roles: ['ADMIN']
   },
   {
-    routeLink: 'settings',
-    icon: 'fal fa-cog',
-    label: 'Settings',
-    items: [
-      {
-        routeLink: 'settings/listHoliday',
-        label: 'List Holiday'
-      },
-      {
-        routeLink: 'settings/listCalendrier',
-        label: 'List Calendrier'
-      }
-    ]
+    routeLink: 'paie',
+    icon: 'fa fa-file-pdf',
+    label: 'Fiche de Paie',
   },
 
 ];

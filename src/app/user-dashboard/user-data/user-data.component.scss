@@ -1,0 +1,55 @@
+.flex-container {
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+}
+
+.label {
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  text-align: left;
+  color: black;
+  font-weight: bold;
+}
+
+.info {
+  width: calc(100% - 110px);
+  height: 30px;
+  line-height: 30px;
+  color: black;
+}
+.align{
+  text-align: right;}
+.title{
+  font-weight: bold;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+.ajout{
+  margin-right: 2rem;
+}
+.ajout button{
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.image{
+  width: 80px;
+  height: 30px;
+  border: 1px solid;
+  justify-content: left;
+  cursor: pointer;
+  background-color: #ffc107;
+}
+.bt{
+  font-weight: bold;
+  font-size: 20px;
+}
+.textt{
+  color: black;
+  font-weight: bold;
+}
+.text{
+  color: white;
+  font-weight: bold;
+}

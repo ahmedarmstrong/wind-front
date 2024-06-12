@@ -7,6 +7,8 @@ import { ListEmployesComponent } from './list-employes/list-employes.component';
 import {FormsModule} from "@angular/forms";
 import { DetailEmployeComponent } from './detail-employe/detail-employe.component';
 import { ProfileComponent } from './profile/profile.component';
+import {ExactLengthValidatorDirective} from "../../validator/ExactLengthValidatorDirective";
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 @NgModule({
@@ -15,12 +17,14 @@ import { ProfileComponent } from './profile/profile.component';
     ListEmployesComponent,
     DetailEmployeComponent,
     ProfileComponent,
+    UserProfileComponent,
   ],
-  imports: [
-    CommonModule,
-    EmployerRoutingModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule,
+        EmployerRoutingModule,
+        FormsModule,
+        ExactLengthValidatorDirective
+    ]
 })
 export class EmployerModule {
 

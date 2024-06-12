@@ -1,7 +1,7 @@
 <div>
+  <h3 class="title">Modifier Info</h3>
   <div class="card" >
     <div class="card-body">
-      <h5 class="card-title text-center">Modifier Profile</h5>
       <div class="card-body">
         <form >
           <div class="row">
@@ -45,12 +45,15 @@
           </div>
           <div class="row">
             <div class="col">
-              <label  class="form-label">Sutiation</label>
-              <input type="text" class="form-control" [(ngModel)]="employe.situation" name="situation">
+              <label class="form-label">Situation</label>
+              <select class="form-control" [(ngModel)]="employe.situation" name="situation" (change)="onSituationChange()">
+                <option value="Celibataire">Celibataire</option>
+                <option value="Mariee">Mariee</option>
+              </select>
             </div>
             <div class="col">
-              <label  class="form-label">Nbr Enfants</label>
-              <input type="text" class="form-control" [(ngModel)]="employe.nbrEnfant" name="nbrEnfant">
+              <label class="form-label">Nbr Enfants</label>
+              <input type="text" class="form-control" [(ngModel)]="employe.nbrEnfant" name="nbrEnfant" [readonly]="isCelibataire">
             </div>
             <div class="col">
               <label for="exampleInputEmail1" class="form-label">Grade</label>
@@ -64,11 +67,11 @@
             </div>
             <div class="col">
               <label  class="form-label">Salaire </label>
-              <input type="text" class="form-control" [(ngModel)]="employe.salaireNet" [readonly]="true" name="salaire">
+              <input type="text" class="form-control textt" [(ngModel)]="employe.salaireNet" name="salaire">
             </div>
             <div class="col">
               <label class="form-label">Calendriers</label>
-              <p class="form-control" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#myModal" >
+              <p class="form-control cc" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#myModal">
                 <ng-container *ngFor="let calendrier of userCalendriers; let last = last">
                   {{ calendrier.nom }}<span *ngIf="!last"> &nbsp;&nbsp;&nbsp; </span>
                 </ng-container>
@@ -85,11 +88,11 @@
       </div>
     </div>
   </div>
-  <div class="p-2 flex-fill button" >
-    <button type="button" class="btn btn-secondary mr-2" (click)="backButton()">
+  <div class="p-2 flex-fill button " >
+    <button type="button" class="btn btn-dark mr-2 text" (click)="backButton()">
       Annuler
     </button>
-    <button type="button" class="btn btn-primary"(click)="updateEmployee()" >
+    <button type="button" class="btn btn-warning textt" (click)="updateEmployee()" >
       Enregistrer
     </button>
   </div>
@@ -99,7 +102,7 @@
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title text-center" id="staticBackdropLabel">Calendriers</h5>
+          <h5 class="modal-title text-center" id="staticBackdropLabel">choisir le week end</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <i class="fas fa-times"></i>
           </button>
@@ -108,16 +111,18 @@
           <div class="col">
             <label class="form-label">Calendriers</label>
             <div *ngFor="let calendrier of calendriers">
-              <input type="checkbox" [checked]="isUserCalendrier(calendrier.id!)" aria-label="Checkbox for following text input">
+              <input type="checkbox" [checked]="selectedCalendrierIds.includes(calendrier.id!)"
+                     (change)="onCalendrierToggle(calendrier.id!, $event)"
+                     aria-label="Checkbox for following text input">
               {{ calendrier.nom }}
             </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Close</button>
+          <button type="button" class="btn btn-dark text" data-bs-dismiss="modal" >Close</button>
 
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal"  >
-            <i class="fas fa-trash-alt"></i>&nbsp;Supprimer</button>
+          <button type="button" class="btn btn-warning textt" data-bs-dismiss="modal" (click)="submitChanges()" >
+            Enregistrer</button>
         </div>
       </div>
     </div>

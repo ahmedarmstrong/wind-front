@@ -1,76 +1,140 @@
-<div *ngIf="(poinatgeStates$ | async) as state"  [ngSwitch]="state.appState">
 
-  <div >
-    <form #searchForm="ngForm" (ngSubmit)="gotToPage(searchForm.value.query)" class="d-flex mr" role="search">
-      <input type="search" name="query" ngModel class="form-control me-5 flex-grow-1" style="max-width: 900px;" placeholder="Search" aria-label="Search">
-      <div class="p-1 flex-fill button" >
-        <button type="submit" class="btn btn-warning mr-2" >
-          Recherche
-        </button>
-        <button type="submit" class="btn btn-dark mr-3" (click)="resetForm(searchForm)">
-          Reset
-        </button>
+  <div>
+  <h3 class="title">Pointages</h3>
+    <div *ngIf="errorMessage" [ngClass]="{'alert-success': messageType === 'success', 'alert-error': messageType === 'error'}" class="alert">
+      <span class="fas fa-exclamation-circle"></span>
+      <span class="msg">{{ errorMessage }}</span>
+      <span class="close-btn" (click)="errorMessage = ''">
+    <span class="fas fa-times"></span>
+  </span>
+    </div>
+  <div>
+    <div class="ajout">
+      <button type="button" class="btn btn-warning textt"  (click)="fileInput.click()">
+        Importer un fichier CSV
+        <i class="fa fa-info-circle" aria-hidden="true"></i>
+      </button>
+      <input type="file" #fileInput style="display: none;" (change)="onFileSelected($event)"  >
+      <button  type="button" class="btn btn-warning textt" data-bs-toggle="modal" data-bs-target="#nouveauModal">
+        Calculer Salaire
+      </button>
+      <!--<mat-spinner *ngIf="isLoading"></mat-spinner>-->
+    </div>
+    <app-spinner></app-spinner>
+    <div class="card m-5">
+      <div class="card-body box">
+        <form #searchForm="ngForm" (ngSubmit)="gotToPage(searchForm.value.query,  searchForm.value.date)" class="row g-3 align-items-center" role="search">
+          <div class="col">
+            <input type="text" ngModel name="query" class="form-control" placeholder="Collaborateur">
+          </div>
+          <div class="col">
+            <input type="text" ngModel name="date" class="form-control" placeholder="Entrez une période">
+          </div>
+          <div class="col-md-4 button-group justify-content-end">
+            <button type="submit" class="btn btn-warning textt">Rechercher</button>
+            <button type="button" class="btn btn-dark ml-2">Reset</button>
+          </div>
+        </form>
       </div>
-    </form>
-    <div class="text-center text-danger" *ngSwitchCase="'APP_ERROR'">No Pointages found</div>
-    <div *ngSwitchCase="'APP_LOADING'">
-      <div class="d-flex justify-content-center mt-4">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
+    </div>
+    <div *ngIf="(poinatgeStates$ | async) as state" [ngSwitch]="state.appState">
+      <!-- Data Display Section -->
+      <div *ngIf="state.appState === 'APP_LOADED'">
+        <div class="tab" >
+          <table class="table box">
+            <thead>
+            <tr class="table-dark text-center">
+              <th>Prenom</th>
+              <th>Nom</th>
+              <th>ID Societe</th>
+              <th>Matricule</th>
+              <th>Date</th>
+              <th>Heure de Debut</th>
+              <th>Heure de Fin</th>
+              <th>Total Heure</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center textt" *ngFor="let pointage of state.appData?.content; let i = index">
+              <td>{{ pointage.prenom }}</td>
+              <td>{{ pointage.nom }}</td>
+              <td>{{ pointage.idSociete }}</td>
+              <td>{{ pointage.matricule }}</td>
+              <td>{{ pointage.date }}</td>
+              <td>{{ pointage.heureDebut }}</td>
+              <td>{{ pointage.heureFin }}</td>
+              <td>{{ pointage.totalHeure }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Pagination Controls -->
+        <nav *ngIf="state.appData?.content?.length! > 0" class="pagination">
+          <select class="slc" id="pageSize" [(ngModel)]="size" (ngModelChange)="loadPointages(searchForm.value.query,  searchForm.value.date)">
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+          <ul>
+            <li class="prev pointer" [ngClass]="0 == (currentPage$ | async) ? 'disabled' : ''">
+              <a (click)="goToNextOrPreviousPage('backward', searchForm.value.query, searchForm.value.date)">Prev</a>
+            </li>
+            <li *ngFor="let pageNumber of getVisiblePages(currentPage$ | async, state.appData?.totalPages!); let i = index" class="page pointer" [ngClass]="pageNumber == (currentPage$ | async) ? 'active' : ''">
+              <a (click)="gotToPage(searchForm.value.query, searchForm.value.date, pageNumber)">{{ pageNumber + 1 }}</a>
+            </li>
+            <li [ngClass]="(state.appData?.totalPages! - 1) == (currentPage$ | async) ? 'disabled' : ''" class="next pointer">
+              <a (click)="goToNextOrPreviousPage('forward', searchForm.value.query, searchForm.value.date)">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <!-- Loading and Error Handling -->
+      <div class="text-center text-danger" *ngSwitchCase="'APP_ERROR'">No data found</div>
+      <div *ngSwitchCase="'APP_LOADING'">
+        <div class="d-flex justify-content-center mt-4">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </div>
       </div>
     </div>
-    <div *ngSwitchCase="'APP_LOADED'">
-      <h3 class="text-center pt-4 pb-3">Poinatges List</h3>
-      <table class="table tablee table-bordered" >
-        <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">ID Societe</th>
-          <th scope="col">Nom </th>
-          <th scope="col">Prenom </th>
-          <th scope="col">Matricule</th>
-          <th scope="col">Date</th>
-          <th scope="col">Heure de Debut</th>
-          <th scope="col">Heure de Fin</th>
-          <th scope="col">Totale Heure</th>
-        </tr>
-        </thead>
-        <tbody>
 
-        <tr *ngFor="let pointage of state.appData?.content; let i = index;">
-          <th scope="row">{{pointage.id}}</th>
-          <td>{{pointage.idSociete}}</td>
-          <td>{{pointage.userId.nom}}</td>
-          <td>{{pointage.userId.prenom}}</td>
-          <td>{{pointage.matricule}}</td>
-          <td>{{pointage.date}}</td>
-          <td>{{pointage.heureDebut}}</td>
-          <td>{{pointage.heureFin}}</td>
-          <td>{{pointage.totalHeure}}</td>
-        </tr>
-        </tbody>
-      </table>
-      <nav *ngIf="state.appData?.content?.length!  > 0" aria-label="Page navigation example">
-        <ul class="pagination justify-content-end">
-          <li class="page-item pointer" [ngClass]="0 == (currentPage$ | async) ? ' disabled' : ''">
-            <a (click)="goToNextOrPreviousPage('backward', searchForm.value.query)" class="page-link" aria-label="Previous">
-              <span aria-hidden="true">&laquo; Previous</span>
-            </a>
-          </li>
-          <li *ngFor="let pageNumber of [].constructor(state.appData?.totalPages); let i = index;"
-              class="page-item pointer" [ngClass]="i == (currentPage$ | async) ? ' active' : ''">
-            <a (click)="gotToPage(searchForm.value.query ,i)" class="page-link">
-              {{ i + 1 }}
-            </a>
-          </li>
-          <li class="page-item pointer" [ngClass]="(state.appData?.totalPages! - 1) == (currentPage$ | async) ? ' disabled' : ''">
-            <a (click)="goToNextOrPreviousPage('forward', searchForm.value.query)" class="page-link" aria-label="Next">
-              <span aria-hidden="true">Next &raquo;</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
   </div>
+    <div class="modal fade" id="nouveauModal" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-center" id="staticBackdropLabel1">Enter Month and Year</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form >
+              <div class="row mb-5 mt-5">
+                <div class="col-md-6">
+                  <label class="form-label textt">Month</label>
+                  <input type="text" class="form-control" name="month" [(ngModel)]="month">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label textt">Year</label>
+                  <input type="text" class="form-control" name="year" [(ngModel)]="year">
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-dark text" data-bs-dismiss="modal" >Close</button>
+
+            <button type="button" class="btn btn-warning textt" data-bs-dismiss="modal" (click)="generateFichePaie()">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </div>
+

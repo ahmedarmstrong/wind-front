@@ -11,17 +11,25 @@ export const authGuard: CanActivateFn = (
   const authService = inject(AuthService);
 
   return authService.AuthenticatedUser$.pipe(
-    take(1), // take the first one and then unsubscribe automatically
+    take(1), // Take the first emitted value then complete
     map(user => {
-      // check if route is restricted by role
-      const { roles } = route.data;
-      if(user && user.role && roles.includes(user.role.name)) {
-        return true;
+      const roles = route.data['roles'] as Array<string>;
+      if (user && user.role) {
+        // Check if user has one of the required roles for this route
+        if (roles.includes(user.role.name)) {
+          return true;
+        }
+
+        // Redirect user based on their role
+        if (user.role.name === 'ROLE_USER') {
+          return router.createUrlTree(['/user-dashboard/dash']);
+        } else if (user.role.name === 'ROLE_ADMIN') {
+          return router.createUrlTree(['/main']);
+        }
       }
-      if(user) {
-        return  router.createUrlTree(['/access-denied']);
-      }
-      return  router.createUrlTree(['/login']);
+
+      // User is not logged in or the role does not match any expected role
+      return router.createUrlTree(['/login']);
     })
-  )
-};
+  );
+}

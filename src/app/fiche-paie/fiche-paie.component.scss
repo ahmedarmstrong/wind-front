@@ -1,0 +1,109 @@
+.card-header{
+  background-color: rgba(14, 14, 28, 0.82);
+}
+.card-body{
+  background-color: rgba(255, 255, 255, 0.87);
+  margin-top: 10px;
+}
+.margin{
+  margin-left: 20px;
+}
+
+.button{
+  background-color: #d2d2d2;
+  width: 70px;
+  height: 25px;
+  border-radius: 100px;
+  cursor: pointer;
+  position: relative;
+  transition: 0.2s;
+}
+.textt{
+  font-weight: bold;
+  color: black;
+}
+.button::before{
+  position: absolute;
+  content: '';
+  background-color: #fff;
+  width: 25px;
+  height: 25px;
+  border-radius: 100px;
+  margin: 0px;
+  transition: 0.2s;
+}
+input:checked + .button{
+  background-color: #ffc107;
+}
+.box{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.87);
+}
+.title {
+  font-weight: bold;
+}
+.divider {
+  height: 2px;
+  background-color: black; /* Makes the divider black */
+  margin: 10px 0; /* Adds vertical space around the divider */
+}
+input:checked + .button::before{
+  transform: translateX(50px);
+}
+.margin input{
+  display: none;
+}
+.value {
+  text-align: right; /* Aligns the text to the right */
+  flex-grow: 1;
+  font-size: 15px;
+  font-weight: bold;
+  margin-right: 30px;
+  color: black;
+
+}
+.row-item {
+  display: flex;
+  justify-content: space-between; /* Aligns items on the main-axis */
+  width: 100%;
+  margin-bottom: 10px/* Ensures the div takes full width of the column */
+}
+
+.label {
+  white-space: nowrap; /* Keeps the label in a single line */
+  font-size: 15px;
+  font-weight: bold;
+  color: black;
+
+}
+.labell {
+  white-space: nowrap; /* Keeps the label in a single line */
+  font-size: 30px;
+  font-weight: bold;
+  color: black;
+}
+.slect{
+  width: 50%;
+}
+.section{
+  margin-top: 30px;
+}
+.but{
+  text-align: end;
+}
+.bold{
+  font-weight: bold;
+}
+.valuee {
+  text-align: right; /* Aligns the text to the right */
+  flex-grow: 1;
+  font-size: 30px;
+  font-weight: bold;
+  margin-right: 30px;
+  color: black;
+
+}
+.ajout button{
+  padding-left: 40px;
+  padding-right: 40px;
+  font-weight: bold;
+}

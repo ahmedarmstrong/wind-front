@@ -1,89 +1,261 @@
-<div class="col mb-3">
-    <div class="text-center mb-5">
-        <h2>Nouveau Employer</h2>
-    </div>
+<div class="">
 
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
+  <div *ngIf="errorMessage" [ngClass]="{'alert-success': messageType === 'success', 'alert-error': messageType === 'error'}" class="alert">
+    <span class="fas fa-exclamation-circle"></span>
+    <span class="msg">{{ errorMessage }}</span>
+    <span class="close-btn" (click)="errorMessage = ''">
+    <span class="fas fa-times"></span>
+  </span>
   </div>
-    <form #f="ngForm" (ngSubmit)="saveEmploye()">
-        <div class="row mb-1">
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Nom</label>
-                <input type="text" [(ngModel)]="employe.nom" class="form-control" placeholder="First name" name="firstName">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Prenom</label>
-                <input type="text" [(ngModel)]="employe.prenom" class="form-control" placeholder="Last name" name="lastName">
-            </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Email address</label>
-            <input type="email" [(ngModel)]="employe.email" class="form-control" placeholder="email@email.com" name="email">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" [(ngModel)]="employe.password" class="form-control" placeholder="****" name="email">
-          </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Numéro de Tel</label>
-                <input type="text" [(ngModel)]="employe.tel" class="form-control" placeholder="Num tel" name="phoneNumber">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Date De Naissance</label>
-                <input type="text" [(ngModel)]="employe.dateNaissance" class="form-control" placeholder="dd/MM/yyyy" name="dob">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Matricule</label>
-                <input type="text" [(ngModel)]="employe.matricule" class="form-control" placeholder="******" name="matricule">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">CIN</label>
-                <input type="text" [(ngModel)]="employe.cin" class="form-control" placeholder="********" name="cin">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Situation</label>
-              <select class="form-select" [(ngModel)]="employe.situation" aria-label="Default select example" name="situation">
-                <option value="Celibataire">Celibataire</option>
-                <option value="Mariee">Mariee</option>
-              </select>
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Nombre Enfant</label>
-                <input type="text" [(ngModel)]="employe.nbrEnfant" class="form-control" placeholder="N° enfant" name="numberOfChildren">
-            </div>
-            <div class="col-md-6 mb-3">
-                <label class="form-label">Salaire Brut</label>
-                <input type="text" [(ngModel)]="employe.salaireNet" class="form-control" placeholder="salaire brut" name="grossSalary">
-            </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Societe</label>
-            <select class="form-select" name="soc" [(ngModel)]="employe.societeId" aria-label="Default select example">
-              <option [value]="null">Selectionner une société</option>
-              <option *ngFor="let soc of listeSociete" [ngValue]="soc.id">{{ soc.nom }}</option>
-            </select>
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Grade </label>
-            <input type="text" [(ngModel)]="employe.grade" class="form-control" placeholder="salaire brut" name="grossSalary">
-          </div>
-          <div class="col-md-6 mb-3">
-            <label class="form-label">Role</label>
-            <select class="form-select" [(ngModel)]="employe.role" aria-label="Default select example" name="situation">
-              <option value="USER">USER</option>
-              <option value="ADMIN">ADMIN</option>
-              <option value="RH">RH</option>
-            </select>
-          </div>
 
+  <h2 class="heading">Create Employer</h2>
+        <div class="card box">
+          <form class="msform" #f="ngForm" (ngSubmit)="saveEmploye()" novalidate>
+            <!-- progressbar -->
+            <ul class="progressbar">
+              <li [class.active]="step >= 1" class="active account"><strong>1</strong></li>
+              <li [class.active]="step >= 2" class="personal"><strong>2</strong></li>
+              <li [class.active]="step >= 3" class="payment"><strong>3</strong></li>
+              <li [class.active]="step >= 4" class="confirm"><strong>4</strong></li>
+            </ul>
+            <div class="progress">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100" [style.width]="(step / 4 * 100) + '%'"></div>
+            </div> <br> <!-- fieldsets -->
+            <fieldset *ngIf="step === 1">
+              <div class="form-card">
+                <div class="row">
+                  <div class="col-7">
+                    <h2 class="fs-title">Account Information:</h2>
+                  </div>
+                  <div class="col-5">
+                    <h2 class="steps">Step 1 - 4</h2>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-12 input-small"> <!-- Reduces the width of each input field container -->
+                    <label class="form-label mar">Nom</label>
+                    <input type="text" [(ngModel)]="employe.nom" name="firstName" class="form-control" placeholder="First name"
+                           required  #firstName="ngModel"
+                           [class.border-danger]="firstName.invalid && firstName.touched">
+                    <div *ngIf="firstName.errors?.['required'] && firstName.touched" class="text-danger">
+                      First name is required.
+                    </div>
+                  </div>
+                  <div class="col-12 input-small">
+                    <label class="form-label mar">Prenom</label>
+                    <input type="text" [(ngModel)]="employe.prenom" name="lastName" class="form-control" placeholder="Last name"
+                           required #lastName="ngModel"
+                           [class.border-danger]="lastName.invalid && lastName.touched">
+                    <div *ngIf="lastName.errors?.['required'] && lastName.touched" class="text-danger">
+                      Last name is required.
+                    </div>
+                  </div>
+
+
+                  <div class="col-12 input-small">
+                    <label class="form-label mar">Email address</label>
+                    <input type="email" [(ngModel)]="employe.email" name="email" class="form-control"
+                           placeholder="email@email.com" required email #email="ngModel"
+                           [class.border-danger]="email.invalid && email.touched">
+                    <div *ngIf="email.invalid && email.touched" class="text-danger">
+                      Please enter a valid email.
+                    </div>
+                  </div>
+                  <div class="col-12 input-small">
+                    <label class="form-label">Matricule</label>
+                    <input type="text" [(ngModel)]="employe.matricule" name="matricule" class="form-control" placeholder="Matricule"
+                           required matricule #matricule="ngModel"
+                           [class.border-danger]="matricule.invalid && matricule.touched">
+                    <div *ngIf="matricule.errors?.['required'] && matricule.touched" class="text-danger">
+                      Matricule is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input type="button" name="next" class="next action-button" value="Next" (click)="next(f)">
+              <input type="button" name="annuler" class="previous action-button-previous" value="Annuler" (click)="backButton()">
+            </fieldset>
+            <fieldset *ngIf="step === 2">
+              <div class="form-card">
+                <div class="row">
+                  <div class="col-7">
+                    <h2 class="fs-title">Account Information:</h2>
+                  </div>
+                  <div class="col-5">
+                    <h2 class="steps">Step 2 - 4</h2>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 input-small"> <!-- Reduces the width of each input field container -->
+                    <label class="form-label">Date De Naissance</label>
+                    <input type="text" [(ngModel)]="employe.dateNaissance" name="dateNaissance" class="form-control" placeholder="dd/MM/YYYY"
+                           required dateNaissance #dateNaissance="ngModel"
+                           [class.border-danger]="dateNaissance.invalid && dateNaissance.touched">
+                    <div *ngIf="dateNaissance.errors?.['required'] && dateNaissance.touched" class="text-danger">
+                      Date is required.
+                    </div>
+                  </div>
+                  <div class="col-12 input-small">
+                    <label class="form-label">Date D'embauche</label>
+                    <input type="text" [(ngModel)]="employe.dateEmbauche" name="dateEmbauche" class="form-control" placeholder="dd/MM/YYYY"
+                           required dateEmbauche #dateEmbauche="ngModel"
+                           [class.border-danger]="dateEmbauche.invalid && dateEmbauche.touched">
+                    <div *ngIf="dateEmbauche.errors?.['required'] && dateEmbauche.touched" class="text-danger">
+                      Date is required.
+                    </div>
+                  </div>
+
+
+                  <div class="col-12 input-small">
+                    <label class="form-label">CIN</label>
+                    <input type="text" [(ngModel)]="employe.cin" name="cin" class="form-control" placeholder="N° CIN"
+                           required pattern="^[0-9]*$" minlength="8" maxlength="8" #cin="ngModel" (input)="filterNumbers($event)"
+                           [class.border-danger]="cin.invalid && cin.touched">
+                    <div *ngIf="cin.invalid && cin.touched">
+                      <div *ngIf="cin.errors?.['required']" class="text-danger">
+                        N° CIN is required.
+                      </div>
+                      <div *ngIf="cin.errors?.['minlength'] || cin.errors?.['maxlength']" class="text-danger">
+                        N° CIN must be exactly 8 digits long.
+                      </div>
+                      <div *ngIf="cin.errors?.['pattern']" class="text-danger">
+                        Only numeric values are allowed.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 input-small">
+                    <label class="form-label">Numéro de Tel</label>
+                    <input type="text" [(ngModel)]="employe.tel" name="tel" class="form-control" placeholder="N° Tel"
+                           required pattern="^[0-9]*$" minlength="8" maxlength="8" #tel="ngModel" (input)="filterNumbers($event)"
+                           [class.border-danger]="tel.invalid && tel.touched">
+                    <div *ngIf="tel.invalid && tel.touched">
+                      <div *ngIf="tel.errors?.['required']" class="text-danger">
+                        N° Tel is required.
+                      </div>
+                      <div *ngIf="tel.errors?.['minlength'] || tel.errors?.['maxlength']" class="text-danger">
+                        N° Tel must be exactly 8 digits long.
+                      </div>
+                      <div *ngIf="tel.errors?.['pattern']" class="text-danger">
+                        Only numeric values are allowed.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <input type="button" name="next" class="next action-button" value="Next" (click)="next(f)">
+              <input type="button" name="previous" class="previous action-button-previous" value="Previous" (click)="prev()">
+            </fieldset>
+            <fieldset *ngIf="step === 3">
+              <div class="form-card">
+                <div class="row">
+                  <div class="col-7">
+                    <h2 class="fs-title">Account Information:</h2>
+                  </div>
+                  <div class="col-5">
+                    <h2 class="steps">Step 3 - 4</h2>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 input-small"> <!-- Reduces the width of each input field container -->
+                    <label class="form-label">Situation</label>
+                    <select class="form-select" [(ngModel)]="employe.situation" name="situation" required #situation="ngModel"
+                            [class.border-danger]="situation.invalid && situation.touched" (ngModelChange)="updateChildNumberField()">
+                      <option value="" disabled selected>Select your situation</option>
+                      <option value="Celibataire">Celibataire</option>
+                      <option value="Mariee">Mariee</option>
+                    </select>
+                    <div *ngIf="situation.invalid && situation.touched" class="text-danger">
+                      Please select a situation.
+                    </div>
+                  </div>
+                  <div class="col-12 input-small">
+                    <label class="form-label">Nombre Enfant</label>
+                    <input type="number" [(ngModel)]="employe.nbrEnfant" class="form-control" placeholder="N° enfant" name="numberOfChildren"
+                           [disabled]="employe.situation === 'Celibataire'">
+                  </div>
+
+
+                  <div class="col-12 input-small">
+                    <label class="form-label">Salaire Net</label>
+                    <input type="number" [(ngModel)]="employe.salaireNet" class="form-control" placeholder="salaire brut" name="grossSalary"
+                           required pattern="^[0-9]*$" #grossSalary="ngModel"
+                           [class.border-danger]="grossSalary.invalid && grossSalary.touched">
+                    <div *ngIf="grossSalary.errors?.['required'] && grossSalary.touched" class="text-danger">
+                      Salary is required.
+                    </div>
+                    <div *ngIf="grossSalary.errors?.['pattern'] && grossSalary.touched" class="text-danger">
+                      Please enter a valid number.
+                    </div>
+                  </div>
+                  <div class="col-12 input-small">
+                    <label class="form-label">N° CNSS </label>
+                    <input type="text" [(ngModel)]="employe.cnss" name="cnss" class="form-control" placeholder="N° CNSS"
+                           required cnss #cnss="ngModel"
+                           [class.border-danger]="cnss.invalid && cnss.touched">
+                    <div *ngIf="cnss.errors?.['required'] && cnss.touched" class="text-danger">
+                      N° CNSS is required.
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <input type="button" name="next" class="next action-button" value="Next" (click)="next(f)">
+              <input type="button" name="previous" class="previous action-button-previous" value="Previous" (click)="prev()">
+            </fieldset>
+            <fieldset *ngIf="step === 4">
+              <div class="form-card">
+                <div class="row">
+                  <div class="col-7">
+                    <h2 class="fs-title">Account Information:</h2>
+                  </div>
+                  <div class="col-5">
+                    <h2 class="steps">Step 4 - 4</h2>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 input-small"> <!-- Reduces the width of each input field container -->
+                    <label class="form-label">Diplome </label>
+                    <input type="text" [(ngModel)]="employe.diplome" name="diplome" class="form-control" placeholder="Diplome"
+                           required diplome #diplome="ngModel"
+                           [class.border-danger]="diplome.invalid && diplome.touched">
+                    <div *ngIf="diplome.errors?.['required'] && diplome.touched" class="text-danger">
+                      Diplome is required.
+                    </div>
+                  </div>
+                  <div class="col-12 input-small">
+                    <label class="form-label">Departement </label>
+                    <input type="text" [(ngModel)]="employe.grade" name="grade" class="form-control" placeholder="Garde"
+                           required grade #grade="ngModel"
+                           [class.border-danger]="grade.invalid && grade.touched">
+                    <div *ngIf="grade.errors?.['required'] && grade.touched" class="text-danger">
+                      Grade is required.
+                    </div>
+                  </div>
+
+
+                  <div class="col-12 input-small">
+                    <label class="form-label">Role</label>
+                    <select class="form-select" [(ngModel)]="employe.role"  name="role" required #role="ngModel"
+                            [class.border-danger]="role.invalid && role.touched" >
+                      <option value="USER">USER</option>
+                      <option value="ADMIN">ADMIN</option>
+                    </select>
+                    <div *ngIf="role.invalid && role.touched" class="text-danger">
+                      Please select a Role .
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+              <input type="submit" name="next" class="btn btn-warning action-button" value="Enregistrer">
+              <input type="reset" name="previous" class="previous action-button-previous" value="Previous" (click)="prev()">
+            </fieldset>
+          </form>
         </div>
-        <div class="text-end">
-            <button class="btn btn-dark m-2" type="reset">
-                <i class="fas fa-ban"></i>&nbsp;
-                Annuler
-            </button>
-          <button class="btn btn-primary" type="submit">
-            <i class="fas fa-save"></i>&nbsp; Enregistrer
-          </button>
-        </div>
-    </form>
+
+<script>
+
+</script>
 </div>

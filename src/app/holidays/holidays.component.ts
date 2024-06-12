@@ -6,6 +6,8 @@ import {Page} from "../../interface/page";
 import {HttpErrorResponse} from "@angular/common/http";
 import {catchError, map, startWith} from "rxjs/operators";
 import {Status} from "../../interface/status";
+import {NgForm} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-holidays',
@@ -13,6 +15,7 @@ import {Status} from "../../interface/status";
   styleUrl: './holidays.component.scss'
 })
 export class HolidaysComponent implements OnInit{
+  isAdmin: boolean;
 
   societeHolidays: SocieteHolidaysDto[] = [];
 
@@ -26,7 +29,9 @@ export class HolidaysComponent implements OnInit{
   private currentPageSubject = new BehaviorSubject<number>(0);
   currentPage$ = this.currentPageSubject.asObservable();
 
-  constructor( private societeHolidaysService: SocieteHolidaysService) {}
+  constructor( private societeHolidaysService: SocieteHolidaysService, private router: Router ) {
+    this.isAdmin = this.getCurrentUserRole();
+  }
 
 
 
@@ -52,21 +57,6 @@ export class HolidaysComponent implements OnInit{
     );
   }
 
- /* loadHolidays() {
-    this.societeHolidaysService.findHolidaysBySocieteId().subscribe({
-      next: (data: SocieteHolidaysDto[]) => {
-        this.societeHolidays = data.map(societeHoliday => {
-          if (societeHoliday.holidayDto?.date) {
-            societeHoliday.holidayDto.date = this.transformDateToCurrentYear(societeHoliday.holidayDto.date);
-          }
-          return societeHoliday;
-        });
-      },
-      error: (error) => {
-        console.error('There was an error!', error);
-      }
-    });
-  }*/
   transformDateToCurrentYear(dateStr: string): string {
     const currentYear = new Date().getFullYear();
     const [day, month] = dateStr.split('/');
@@ -97,6 +87,19 @@ export class HolidaysComponent implements OnInit{
   goToNextOrPreviousPage(direction?: string, societeId?: number): void {
     this.gotToPage(societeId, direction === 'forward' ? this.currentPageSubject.value + 1 : this.currentPageSubject.value - 1);
   }
+
+  detailHoliday(): void {
+    this.router.navigate(['main/listHoliday']);
+  }
+
+  private getCurrentUserRole(): boolean {
+    const currentUser = localStorage.getItem('authenticated-user');
+    if (!currentUser) return false;
+
+    const userData = JSON.parse(currentUser);
+    return userData.role.name === 'ROLE_ADMIN'; // Adjust based on your actual data structure
+  }
+
 
 
   protected readonly Status = Status;

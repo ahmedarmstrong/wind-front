@@ -1,14 +1,12 @@
 <div>
-  <div class="p-2 flex-fill align" *ngIf="isNouveauVisible">
-    <button type="button" class="btn btn-secondary" (click)="updateEmploye()">
-
+  <h3 class="title">Profil</h3>
+  <div class="p-2 flex-fill ajout align d-flex justify-content-between" *ngIf="isNouveauVisible">
+    <button type="button" class="btn btn-warning" (click)="backButton()"> <i class="fa fa-reply" aria-hidden="true"></i></button>
+    <button type="button" class="btn btn-warning textt" (click)="updateEmploye()">
       Modifier
     </button>
   </div>
   <div class="card" >
-    <div class="card-header text-center">
-      <h3>Profile</h3>
-    </div>
       <div class="card-body row">
 
         <div class="col">
@@ -52,6 +50,12 @@
             </li>
             <li class="phone">
               <div class="flex-container">
+                <h5 class="label">N° CNSS : </h5>
+                <h6 class="info">{{employe.cnss}}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
                 <h5 class="label">Role : </h5>
                 <h6 class="info">{{employe.role}}</h6>
               </div>
@@ -76,6 +80,12 @@
             </li>
             <li class="phone">
               <div class="flex-container">
+                <h5 class="label">Diplome : </h5>
+                <h6 class="info">{{employe.diplome}}</h6>
+              </div>
+            </li>
+            <li class="phone">
+              <div class="flex-container">
                 <h5 class="label">Salaire: </h5>
                 <h6 class="info">{{employe.salaireNet}} D</h6>
               </div>
@@ -88,10 +98,16 @@
             </li>
             <li class="phone">
               <div class="flex-container">
+                <h5 class="label">DateEmb : </h5>
+                <h6 class="info">{{employe.dateEmbauche}}</h6>
+              </div>
+            </li>
+          <!--  <li class="phone">
+              <div class="flex-container">
                 <h5 class="label">Gender : </h5>
                 <h6 class="info">Male</h6>
               </div>
-            </li>
+            </li>-->
             <li class="phone">
               <div class="flex-container">
                 <h5 class="label">Sutiation : </h5>

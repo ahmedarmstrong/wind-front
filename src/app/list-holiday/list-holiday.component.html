@@ -1,0 +1,195 @@
+<div >
+  <h3 class="title">List Holidays</h3>
+  <div class="d-flex justify-content-end equal-size-items ajout">
+    <div class="flex-grow-1 ff">
+      <button type="button" class="btn btn-warning" (click)="backButton()">
+        <i class="fa fa-reply" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div class="align-end me-3">
+      <button
+        class="btn btn-warning textt"
+        type="submit"
+        data-bs-toggle="modal"
+        data-bs-target="#nouveauModal">
+        Ajouter
+      </button>
+    </div>
+    <div class="dropdown">
+      <a class="btn btn-dark dropdown-toggle text" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        Pays
+      </a>
+      <ul class="dropdown-menu pointer" aria-labelledby="dropdownMenuLink">
+        <li><a class="dropdown-item textt" (click)="searchHolidays('Tunisia')">Tunisia</a></li>
+        <li><a class="dropdown-item textt" (click)="searchHolidays('France')">France</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" [ngClass]="{'alert-success': messageType === 'success', 'alert-error': messageType === 'error'}" class="alert">
+    <span class="fas fa-exclamation-circle"></span>
+    <span class="msg">{{ errorMessage }}</span>
+    <span class="close-btn" (click)="errorMessage = ''">
+    <span class="fas fa-times"></span>
+  </span>
+  </div>
+
+    <div class="tab">
+
+            <table class="table box">
+                <thead>
+                <tr class="table-dark">
+                    <th class="hol">Nom</th>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Pays</th>
+                  <th class="text-center">Associated</th>
+                    <th class="align-end" scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr *ngFor="let holiday of listHolidays; let i = index;">
+                    <td class="hol1 textt">{{holiday.nom}}</td>
+                    <td class="text-center textt">{{holiday.date}}</td>
+                    <td class="text-center textt">{{holiday.pays}}</td>
+                  <td class="text-center">
+                    <!-- Apply dynamic class based on isHolidayOfSociete -->
+                    <p class="{{ holiday.isHoliday ? 'button-green' : 'button-red' }}">
+                      {{ holiday.isHoliday ? 'Associated' : 'Not associated' }}
+                    </p>
+                  </td>
+                    <td class="align-end">
+                      <div class="dropdown pointer">
+                        <i class="fa fa-bars bout" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" aria-hidden="true"></i>
+
+                        <ul class="dropdown-menu pointer" aria-labelledby="dropdownMenuButton1" >
+                          <li><a class="dropdown-item textt"  data-bs-toggle="modal" data-bs-target="#nouveauModall" (click)="prepareModal(holiday.id!)">Add To Societe</a></li>
+                          <li><a class="dropdown-item textt" data-bs-toggle="modal" data-bs-target="#myModal" (click)="prepareModal(holiday.id!)" >Remove From Societe</a></li>
+                          <li><a class="dropdown-item textt" data-bs-toggle="modal" data-bs-target="#supp" (click)="prepareModal(holiday.id!)">Delete</a></li>
+                        </ul>
+                      </div>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+    </div>
+    <div class="modal fade" id="myModal" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                      <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body textt">
+                    Etes vous-sur de vouloir supprimer cette Association?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark text" data-bs-dismiss="modal" >Close</button>
+
+                    <button type="button" class="btn btn-warning textt" data-bs-dismiss="modal"  (click)="deleteAssociation()">
+                        <i class="fas fa-trash-alt"></i>&nbsp;Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  <div class="modal fade" id="supp" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabell">Confirmation</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body textt">
+          Etes vous-sur de vouloir supprimer cet Holiday?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark text" data-bs-dismiss="modal" >Close</button>
+
+          <button type="button" class="btn btn-warning textt" data-bs-dismiss="modal"  (click)="deleteHoliday()">
+            <i class="fas fa-trash-alt"></i>&nbsp;Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="nouveauModal" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center" id="staticBackdropLabel1">New Holiday</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form >
+            <div class="row mb-5 mt-5">
+              <div class="col-md-6">
+                <label class="form-label textt">Nom Holiday</label>
+                <input type="text" [(ngModel)]="holiday.nom" class="form-control"  name="firstName">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label textt">Date Holiday</label>
+                <input type="text" [(ngModel)]="holiday.date" class="form-control" name="lastName">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label textt">Pays Holiday</label>
+                <select class="form-select" name="soc" [(ngModel)]="holiday.pays" aria-label="Default select example">
+                  <option value="Tunisia">Tunisia</option>
+                  <option value="France">France</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark text" data-bs-dismiss="modal" >Close</button>
+
+          <button type="button" class="btn btn-warning textt" data-bs-dismiss="modal" (click)="saveHoliday()">
+            Enregistrer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="nouveauModall" data-bs-backdrop="false" data-bs-keyboard="true" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center " id="staticBackdropLabel2">Add Association</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="saveAssociationSocieteHoliday()">
+            <div class="row mb-5 mt-5">
+
+              <div class="col">
+                <label  class="form-label textt">Status</label>
+                <select class="form-select" [(ngModel)]="selectedStatus" name="status" required>
+                  <option *ngFor="let status of enumKeys(Status)" [value]="status">
+                    {{ status.split('_').join(' ').toLowerCase() | titlecase }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <button  type="submit" class="btn btn-warning textt"  data-bs-dismiss="modal">
+              Enregistrer</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark text" data-bs-dismiss="modal" >Close</button>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -41,11 +41,7 @@ export class AuthService {
       }).pipe(
       catchError(err => {
         console.log(err);
-        let errorMessage = 'An unknown error occurred!';
-        if(err.error.message === 'Bad credentials') {
-          errorMessage = 'The email address or password you entered is invalid'
-        }
-        return throwError(() =>  new Error(errorMessage))
+        return throwError(() =>  new Error(err.error.message))
       }),
       tap(
         user => {

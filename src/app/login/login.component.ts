@@ -4,6 +4,7 @@ import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {AuthService} from "../../service/auth.service";
 import {LoginModel} from "../../interface/login-model";
+import {EmployeService} from "../../service/employe.service";
 
 @Component({
   selector: 'app-login',
@@ -11,13 +12,16 @@ import {LoginModel} from "../../interface/login-model";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit,OnDestroy{
-
+  emaill: string = '';
+  message: string = '';
   errorMessage! : string;
   AuthUserSub! : Subscription;
 
 
 
-  constructor(private authService : AuthService, private router : Router) {
+  constructor(private authService : AuthService,
+              private router : Router,
+              private userService: EmployeService) {
   }
 
   ngOnInit() {
@@ -39,7 +43,7 @@ export class LoginComponent implements OnInit,OnDestroy{
 
     this.authService.login(email, password).subscribe({
       next : userData => {
-        this.router.navigate(['main']);
+        this.router.navigate(['main/dashboard']);
       },
       error : err => {
         this.errorMessage = err;
@@ -51,6 +55,15 @@ export class LoginComponent implements OnInit,OnDestroy{
   ngOnDestroy() {
     this.AuthUserSub.unsubscribe();
   }
-
+  onSubmit() {
+    this.userService.resetPassword(this.emaill).subscribe({
+      next: (response) => {
+        this.message = response.message;  // Assuming response comes with a message field
+      },
+      error: (error) => {
+        this.message = 'Failed to reset password. Please try again later.';
+      }
+    });
+  }
   protected readonly console = console;
 }

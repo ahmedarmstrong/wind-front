@@ -1,0 +1,91 @@
+<div *ngIf="(employesState$ | async) as state"  [ngSwitch]="state.appState">
+
+  <h3 class="title">Fiche De Paie</h3>
+  <div>
+
+    <div class="">
+      <div class="card m-5">
+        <div class="card-body box">
+          <form #searchForm="ngForm" (ngSubmit)="gotToPage(searchForm.value.nom, searchForm.value.mois, searchForm.value.year)" class="row g-3 align-items-center" role="search">
+            <!-- Inputs -->
+            <div class="col-md-2">
+              <input type="search" name="nom" ngModel class="form-control" placeholder="Nom">
+            </div>
+            <div class="col-md-2">
+              <input type="text" name="mois" ngModel class="form-control" placeholder="mois">
+            </div>
+            <div class="col-md-2">
+              <input type="text" name="year" ngModel class="form-control" placeholder="year">
+            </div>
+            <!-- Button group -->
+            <div class="col button-group aj justify-content-end">
+              <button type="submit" class="btn btn-warning textt">Rechercher</button>
+              <button type="button" class="btn btn-dark ml-2 text" (click)="resetForm(searchForm)">Reset</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center text-danger" *ngSwitchCase="'APP_ERROR'">No Fiche found</div>
+    <div *ngSwitchCase="'APP_LOADING'">
+
+      <div class="d-flex justify-content-center mt-4">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+    <div class="tab" *ngSwitchCase="'APP_LOADED'">
+      <table class="table box">
+        <thead>
+        <tr class="table-dark">
+          <th></th>
+          <th scope="col">Nom</th>
+          <th scope="col">Prenom</th>
+          <th scope="col">Mois</th>
+          <th scope="col">Annee</th>
+          <th class="align-end">Action</th>
+        </tr>
+
+        </thead>
+        <tbody *ngFor="let employe of state.appData?.content; let i = index;" >
+
+        <tr class="pointer textt"   *ngIf="parseFileName(employe.ficheName!) as fileInfo">
+          <th></th>
+          <td>{{ splitName(fileInfo.nom!).nom }}</td>
+          <td>{{ splitName(fileInfo.nom!).prenom}}</td>
+          <td>{{ fileInfo.mois }}</td>
+          <td>{{ fileInfo.annee }}</td>
+          <td class="align-end"><a class="pointer" (click)="fetchDocument(employe.ficheName!)">View Details</a></td>
+
+        </tr>
+        </tbody>
+      </table>
+
+    </div>
+    <nav *ngIf="state.appData?.content?.length! > 0" class="pagination">
+      <select class="slc" id="pageSize" [(ngModel)]="size" (ngModelChange)="alll()">
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+      </select>
+      <ul>
+        <li class="prev pointer" [ngClass]="0 == (currentPage$ | async) ? 'disabled' : ''">
+          <a (click)="goToNextOrPreviousPage('backward', searchForm.value.nom, searchForm.value.mois, searchForm.value.year)">Prev</a>
+        </li>
+        <li *ngFor="let pageNumber of getVisiblePages(currentPage$ | async, state.appData?.totalPages!); let i = index" class="page pointer" [ngClass]="pageNumber == (currentPage$ | async) ? 'active' : ''">
+          <a (click)="gotToPage(searchForm.value.nom, searchForm.value.mois, searchForm.value.year, pageNumber)">{{ pageNumber + 1 }}</a>
+        </li>
+        <li [ngClass]="(state.appData?.totalPages! - 1) == (currentPage$ | async) ? 'disabled' : ''" class="next pointer">
+          <a (click)="goToNextOrPreviousPage('forward', searchForm.value.nom, searchForm.value.mois, searchForm.value.year)">Next</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

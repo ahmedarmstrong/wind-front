@@ -1,0 +1,108 @@
+.flex-container {
+  display: flex;
+  gap: 20px;
+  align-items: baseline;
+}
+
+.label {
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  text-align: left;
+  color: black;
+}
+
+.info {
+  width: calc(100% - 110px);
+  height: 30px;
+  line-height: 30px;
+  color: black;
+}
+.align{
+  text-align: right;}
+.title{
+  font-weight: bold;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+.ajout{
+  margin-right: 2rem;
+}
+.ajout button{
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.textt{
+  font-weight: bold;
+  color: black;
+}
+///////////////////////////////
+.alert {
+  background: #ffdb9b; /* Default background color for general alerts */
+  padding: 20px 40px;
+  min-width: 420px;
+  position: absolute;
+  right: 30%;
+  top: 1%;
+  overflow: hidden;
+  border-radius: 4px;
+  border-left: 8px solid #ffa502; /* Default border color for general alerts */
+  color: #0a0a0a; /* Default text color */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adding a subtle shadow for better visibility */
+  z-index: 2;
+}
+
+/* Specific styles for success messages */
+.alert-success {
+  background: #d4edda;
+  border-left-color: #28a745;
+  color: #155724;
+}
+
+/* Specific styles for error messages */
+.alert-error {
+  background: #f8d7da;
+  border-left-color: #dc3545;
+  color: #721c24;
+}
+.alert.show {
+  animation: show_slide 1s ease forwards;
+}
+@keyframes show_slide {
+  0%{
+    transform: translateX(100%);
+  }
+  80%{
+    transform: translateX(0%);
+  }
+  100%{
+    transform: translateX(-10px);
+  }
+
+}
+.alert.fa-exclamation-circle{
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+}
+.alert .msg{
+  padding: 0 20px;
+  font-size: 18px;
+  color: #000;
+}
+.alert .close-btn{
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 20px 18px;
+  cursor: pointer;
+}
+
+.close-btn .fa-times {
+  color: #000;
+  font-size: 22px;
+  line-height: 40px;
+}

@@ -1,0 +1,21 @@
+<section class="main">
+  <div class="welcom">
+    <div class="card">
+      <div class="card-header">
+        <h2>Welcome Back !</h2>
+        <p>Dashboard {{employe.role}}</p>
+      </div>
+      <div class="card-image">
+        <img src="../../assets/flags/user.jpg" alt="Profile Picture">
+      </div>
+      <div class="card-body">
+        <h3>{{ employe.nom }}  {{employe.prenom}}</h3>
+        <p>{{employe.diplome}}</p>
+        <div class="card-footer">
+          <a (click)="viewProfile()">View Profile <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
